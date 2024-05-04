@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Factura servicio</title>
+        <style>
+            body {
+                font-family: Times New Roman;
+            }
+
+            .container{
+                padding-left: 35px;
+                padding-right: 35px;
+                padding-top: 20px;
+            }
+
+            .invoice-header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .invoice-header h1 {
+                font-size: 24px;
+            }
+
+            .invoice-info {
+                margin-bottom: 20px;
+            }
+
+            .invoice-info table {
+                border: none;
+            }
+
+            .invoice-info th, .invoice-info td {
+                padding: 5px;
+            }
+
+            .invoice-details {
+                margin-bottom: 20px;
+            }
+
+            .invoice-details table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .invoice-details th, .invoice-details td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .invoice-details th {
+                background-color: #f2f2f2;
+            }
+
+            .invoice-total {
+                text-align: right;
+                margin-top: 20px;
+            }
+
+            .invoice-total .label {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div id="header_content"><strong>Fecha: {% now "d/m/Y" %}</strong></div>
+
+            <br>
+            <div style="width: 100%; text-align: center;">
+                <img src="{{ host }}{% static 'core/img/logo.png'%}"width="300px"/>
+            </div>
+
+            <h1 style="text-align: center;">Factura servicio</h1>
+
+            <div class="invoice-info">
+                <table>
+                    <tr>
+                        <th>Código de factura:</th>
+                        <td>{{ factura.get_codigo }}</td>
+                        <th>Cliente:</th>
+                        <td>{{ factura.cliente.get_names }}</td>
+                        <th>Fecha de emisión:</th>
+                        <td>{{ factura.fecha_emision }}</td>
+                        <!--
+                            <th>Descripción:</th>
+                            <td>{{ factura.descripcion }}</td>
+                        -->
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="invoice-details">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Servicio</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detalle in factura.get_detalles_servicios %}
+                            <tr>
+                                <td>{{ detalle.servicio.codigo }}</td>
+                                <td>{{ detalle.servicio.nombre }}</td>
+                                <td>{{ detalle.servicio.precio }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="invoice-total">
+                <p class="label">Total:</p>
+                <p>{{ factura.getPrecioTotal }}</p>
+            </div>
+        </div>
+        
+    </body>
+</html>

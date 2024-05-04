@@ -1,0 +1,150 @@
+{% extends "core/layout.html" %}
+
+{% block body %}
+    <!-- Facturas -->
+    <div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Facturas</h6>
+                <button type="button" class="btn btn-primary btn-sm" id="btn_cliente_modal_agregar">
+                    <i class="fa fa-archive"></i> Generar factura
+                </button>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tabla_proveedores" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Cliente</th>
+                                <th>Fecha Emision</th>
+                                <th>Nro Venta</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>F0020C1</td>
+                                <td>Pedro Gonzalez</td>
+                                <td>2023-11-25</td>
+                                <td>1</td>
+                                <td>400</td>
+                                <td>
+                                    <button type='button' id="btn_factura_modal_detalles" class='btn btn-primary btn-sm' data-toggle='tooltip' title='Información de producto'><i class='fa fa-book'></i></button>
+                                    <button type='button' class='btn btn-success btn-sm btn_factura_modal_modificar' data-toggle='tooltip' title='Modificar Cliente'><i class='fa fa-pen'></i></button>
+                                    <button type='button' class='btn btn-danger btn-sm btn_factura_modal_eliminar' data-toggle='tooltip' title='Eliminar Cliente'><i class='fa fa-trash'></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>F0031C2</td>
+                                <td>Enrique Garcia</td>
+                                <td>2023-09-15</td>
+                                <td>3</td>
+                                <td>250</td>
+                                <td>
+                                    <button type='button' class='btn btn-primary btn-sm btn_factura_modal_detalles' data-toggle='tooltip' title='Información de producto'><i class='fa fa-book'></i></button>
+                                    <button type='button' class='btn btn-success btn-sm btn_factura_modal_modificar' data-toggle='tooltip' title='Modificar Cliente'><i class='fa fa-pen'></i></button>
+                                    <button type='button' class='btn btn-danger btn-sm btn_factura_modal_eliminar' data-toggle='tooltip' title='Eliminar Cliente'><i class='fa fa-trash'></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>F0032C3</td>
+                                <td>Camilo Marin</td>
+                                <td>2023-12-01</td>
+                                <td>5</td>
+                                <td>1360</td>
+                                <td>
+                                    <button type='button' class='btn btn-primary btn-sm btn_factura_modal_detalles' data-toggle='tooltip' title='Información de producto'><i class='fa fa-book'></i></button>
+                                    <button type='button' class='btn btn-success btn-sm btn_factura_modal_modificar' data-toggle='tooltip' title='Modificar Cliente'><i class='fa fa-pen'></i></button>
+                                    <button type='button' class='btn btn-danger btn-sm btn_factura_modal_eliminar' data-toggle='tooltip' title='Eliminar Cliente'><i class='fa fa-trash'></i></button>
+                                </td>
+                            <tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-end">
+                      <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                      </li>
+                      <li class="page-item active"><a class="page-link" href="#">1<span class="sr-only">(current)</span></a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">Siguiente</a>
+                      </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal detalles factura -->
+    <div class="modal fade show" id="detallesFacturaModal" tabindex="-1" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Información de Factura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body row g-3">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Codigo</label>
+                        <input type="text" value="F0020C1" class="form-control" id="cliente_detalles_cedula" readonly>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Fecha Emision</label>
+                        <input type="text" value="2023-11-25" class="form-control" id="cliente_detalles_num_tlf" readonly>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nro Venta</label>
+                        <input type="text" value="1" class="form-control" id="cliente_detalles_nombres" readonly>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nro de Productos</label>
+                        <input type="text" value="1" class="form-control" id="cliente_detalles_nombres" readonly>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cliente</label>
+                        <input type="text" value="Pedro Gonzalez" class="form-control" id="cliente_detalles_apellidos" readonly>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Telefono</label>
+                        <input type="email" value="04125487958" name="email" class="form-control" id="cliente_detalles_email" readonly>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Total</label>
+                        <input type="text" value="400" class="form-control" id="cliente_detalles_nacimiento" readonly>
+                    </div>
+
+                    <div class="border-top col-md-12 pt-3">
+                        <h4>Caucho Pirelli P400</h4>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Precio</label>
+                        <input type="text" value ='200' class="form-control" id="cliente_detalles_nacimiento" readonly>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cantidad Solicitada</label>
+                        <input type="text" value ='2' class="form-control" id="cliente_detalles_nacimiento" readonly>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

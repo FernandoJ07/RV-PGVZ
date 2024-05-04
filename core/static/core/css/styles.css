@@ -1,0 +1,101 @@
+/* Ajuste de estilos para datatable */
+.dataTables_wrapper .dataTables_filter {
+    color: #e5e6ea;
+    display: flex;
+    justify-content: end;
+    
+}
+
+.dataTables_empty{
+    color: white;
+}
+
+.dataTables_wrapper .dataTables_filter input[type="search"] {
+    background: #1a1d22;
+    color: #e5e6ea;
+    border-bottom: 1px white solid;
+    padding: 2px 5px;
+    margin-left: 5px;
+    outline: none;
+}
+
+.dataTables_paginate{
+    margin-top: 15px !important;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+}
+
+
+.dataTables_paginate .paginate_button {
+    padding: 0.4em 0.8em !important;
+    margin: 0em 0.1em;
+    color: #e5e6ea;
+    border-radius: 2px;
+}
+
+.paginate_button:hover{
+    background-color: #393c46ee
+}
+
+.dataTables_paginate span .current{
+    background-color: #7e3af2
+}
+
+
+.selected {
+    outline: solid yellow !important;
+    border-radius: 5px;
+}
+
+tr {
+    padding: 5px;
+}
+
+button:disabled  {
+    opacity: 0.5; /* Reducir la opacidad del botón */
+    cursor: not-allowed; /* Cambiar el cursor del mouse */
+}
+
+/* Estilos para bootstrap-growl alertas */
+
+.bootstrap-growl .close{
+    margin-right: 5px;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+
+/* Servicios Facturados */
+.servicios_titulo{
+    margin: 15px 0px;
+}
+
+.contenedor_labels{
+    padding: 10px 0px;
+    border-top: 2px solid #323541;
+}
+

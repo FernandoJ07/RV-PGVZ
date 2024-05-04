@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% block body %}
+<div class="container px-6 pb-12 mx-auto grid">
+    <div class="flex justify-between">
+        <h1 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            Ventas
+        </h1>
+    </div>
+
+    <div class="w-full overflow-hidden rounded-lg shadow-xs p-10">
+        <div class="w-full p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <input type="hidden" id="venta_selected_id" value="">
+
+            <table id="tabla_ventas" class="w-full whitespace-no-wrap " width="99%">
+                <thead>
+                    <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                        <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Nro de Venta</th>
+                        <th class="px-4 py-3">Fecha</th>
+                        <th class="px-4 py-3">Cedula</th>
+                        <th class="px-4 py-3">Nombre</th>
+                        <th class="px-4 py-3">Total Venta</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Detalles venta Modal -->
+    <div id="detallesVentaModal" class="modal modal-lg">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                    <div class="modal-close dark:text-gray-300">&times;</div>
+
+                    <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                        Información de la venta
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Nro de Venta</span>
+                        <input id="venta_detalles_nroVenta" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Fecha</span>
+                        <input id="venta_detalles_fecha" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Cedula</span>
+                        <input id="venta_detalles_cedula" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Nombre</span>
+                        <input id="venta_detalles_nombres" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Total Venta</span>
+                        <input id="venta_detalles_total" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
+
+                    <div class="" id="productos_informacion"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
