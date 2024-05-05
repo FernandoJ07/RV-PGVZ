@@ -21,33 +21,34 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(result => {
 				console.log(result)
 		    	if(!result.error) {
-		    		bootstrapAlert('Cliente registrado con éxito', 'success');
+		    		bootstrapAlert('Registro del cliente realizado satisfactoriamente.', 'success');
 					modal('#agregarClienteModal', 'hide');
 		    		this.reset();
 
 		    		setTimeout(() => {
 		    			fill_table('clientes');
 		    		}, 100);
+
 				} else if(result.error == 'No permission.') {
 					modal('#agregarClienteModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de clientes', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar registros de clientes.', 'error');
 
 		    	} else if(result.error == 'DoesNotExist.') {
 					modal('#agregarClienteModal', 'hide');
-		    		bootstrapAlert('Cliente no está registrado', 'error');
+		    		bootstrapAlert('El cliente no se encuentra registrado en el sistema.', 'error');
 
 		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe cliente registrado con esta cédula de identidad', 'error');
+		    		bootstrapAlert('Hay un cliente registrado con este número de cédula de identidad.', 'error');
 					
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del cliente!');
+		    		bootstrapAlert('Se ha producido un fallo al registrar la información del cliente.', 'error');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del cliente!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al registrar la información del cliente.', 'error');
 		    	console.log('Error: ' + error);
 		    });
 
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(response => response.json())
 		    .then(result => {
 		    	if(!result.error) {
-		    		bootstrapAlert('Cliente modificado con éxito', 'success');
+		    		bootstrapAlert('Actualización de la información del cliente realizada satifastoriamente.', 'success');
 		    		modal('#modificarClienteModal', 'hide');
 		    		this.reset();
 
@@ -75,20 +76,23 @@ document.addEventListener('DOMContentLoaded', function() {
 		    		}, 100);
 				} else if(result.error == 'No permission.') {
 					modal('#modificarClienteModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de clientes', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar cambios en la información de los clientes.', 'error');
+
 		    	} else if(result.error == 'DoesNotExist.') {
 		    		modal('#modificarClienteModal', 'hide');
-		    		bootstrapAlert('Cliente no está registrado', 'error');
+		    		bootstrapAlert('El cliente no se encuentra registrado en el sistema.', 'error');
+
 		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe cliente registrado con esta cédula de identidad', 'error');
+		    		bootstrapAlert('Hay un cliente registrado con este número de cédula de identidad.', 'error');
+
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del cliente!');
+		    		bootstrapAlert('Se ha producido un fallo al actualizar la información del cliente.');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del cliente!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al actualizar la información del cliente.', 'error');
 		    	console.log('Error: ' + error);
 		    });
 
@@ -107,24 +111,26 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(result => {
 		    	if(!result.error) {
 					modal('#eliminarClienteModal', 'hide');
-		    		bootstrapAlert('Cliente eliminado correctamente', 'success');
+		    		bootstrapAlert('Información del cliente eliminada satisfactoriamente.', 'success');
 
 		    		setTimeout(() => {
 						fill_table('clientes');
 					}, 100);
 		    	} else if(result.error == 'DoesNotExist.') {
 					modal('#eliminarClienteModal', 'hide');
-		    		bootstrapAlert('Cliente no está registrado', 'error');
+		    		bootstrapAlert('El cliente no se encuentra registrado en el sistema.', 'error');
+
 		    	}
 		    	else if(result.error == 'No permission.') {
 					modal('#eliminarClienteModal', 'hide');
-		    		bootstrapAlert('Tu cuenta no tiene permisos para eliminar clientes', 'error');
+		    		bootstrapAlert('Los privilegios de tu cuenta no permiten eliminar la información de los clientes.', 'error');
+
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al eliminar cliente');
+		    		bootstrapAlert('Se ha producido un fallo al eliminar la información del cliente.');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al eliminar cliente', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al eliminar la información del cliente.', 'error');
 		    	console.log('Error: ' + error);
 		    });
 		});
@@ -149,33 +155,34 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(result => {
 				console.log(result)
 		    	if(!result.error) {
-		    		bootstrapAlert('Proveedor registrado con éxito', 'success');
+					bootstrapAlert('Registro del proveedor realizado satisfactoriamente.', 'success');
 					modal('#agregarProveedorModal', 'hide');
 		    		this.reset();
 
 		    		setTimeout(() => {
 		    			fill_table('proveedores');
 		    		}, 100);
+
 				} else if(result.error == 'No permission.') {
 					modal('#agregarProveedorModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de proveedoress', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar registros de proveedores.', 'error');
 
 		    	} else if(result.error == 'DoesNotExist.') {
 					modal('#agregarProveedorModal', 'hide');
-		    		bootstrapAlert('Proveedor no está registrado', 'error');
+		    		bootstrapAlert('El proveedor no se encuentra registrado en el sistema.', 'error');
 
 		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe Proveedor registrado con esta cédula de identidad', 'error');
+		    		bootstrapAlert('Hay un proveedor registrado con este número de cédula de identidad.', 'error');
 					
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!');
+		    		bootstrapAlert('Se ha producido un fallo al registrar la información del proveedor.', 'error');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al registrar la información del proveedor.', 'error');
 		    	console.log('Error: ' + error);
 		    });
 
@@ -194,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(response => response.json())
 		    .then(result => {
 		    	if(!result.error) {
-		    		bootstrapAlert('Proveedor modificado con éxito', 'success');
+		    		bootstrapAlert('Actualización de la información del proveedor realizada satifastoriamente.', 'success');
 		    		modal('#modificarProveedorModal', 'hide');
 		    		this.reset();
 
@@ -203,20 +210,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		    		}, 100);
 				} else if(result.error == 'No permission.') {
 					modal('#modificarProveedorModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de Proveedors', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar cambios en la información de los proveedores.', 'error');
+
 		    	} else if(result.error == 'DoesNotExist.') {
 		    		modal('#modificarProveedorModal', 'hide');
-		    		bootstrapAlert('Proveedor no está registrado', 'error');
+		    		bootstrapAlert('El proveedor no se encuentra registrado en el sistema.', 'error');
+					
 		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe Proveedor registrado con esta cédula de identidad', 'error');
+		    		bootstrapAlert('Hay un proveedor registrado con este número de cédula de identidad.', 'error');
+
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
+
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!');
+		    		bootstrapAlert('Se ha producido un fallo al actualizar la información del proveedor');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al actualizar la información del proveedor');
 		    	console.log('Error: ' + error);
 		    });
 
@@ -235,24 +246,25 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(result => {
 		    	if(!result.error) {
 					modal('#eliminarProveedorModal', 'hide');
-		    		bootstrapAlert('Proveedor eliminado correctamente', 'success');
+		    		bootstrapAlert('Información del proveedor eliminada satisfactoriamente.', 'success');
 
 		    		setTimeout(() => {
 						fill_table('proveedores');
 					}, 100);
 		    	} else if(result.error == 'DoesNotExist.') {
 					modal('#eliminarProveedorModal', 'hide');
-		    		bootstrapAlert('Proveedor no está registrado', 'error');
+		    		bootstrapAlert('El proveedor no se encuentra registrado en el sistema.', 'error');
 		    	}
 		    	else if(result.error == 'No permission.') {
 					modal('#eliminarProveedorModal', 'hide');
-		    		bootstrapAlert('Tu cuenta no tiene permisos para eliminar Proveedors', 'error');
+		    		bootstrapAlert('Los privilegios de tu cuenta no permiten eliminar la información de los proveedores.', 'error');
+					
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al eliminar Proveedor');
+		    		bootstrapAlert('Se ha producido un fallo al eliminar la información del proveedor.');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al eliminar Proveedor', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al eliminar la información del proveedor.');
 		    	console.log('Error: ' + error);
 		    });
 		});
@@ -291,30 +303,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				} else if(result.error == 'No permission.') {
 					modal('#agregarUsuarioModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de usuarios', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar registros de usuarios.', 'error');
 
 		    	} else if(result.error == 'DoesNotExist.') {
 					modal('#agregarUsuarioModal', 'hide');
-		    		bootstrapAlert('usuario no está registrado', 'error');
+		    		bootstrapAlert('El usuario no se encuentra registrado en el sistema.', 'error');
 
 		    	} else if(result.error == 'CedulaNotUnique.') {
 		    		bootstrapAlert('Ya existe usuario registrado con esta cedula', 'error');
 					
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del usuario!');
+		    		bootstrapAlert('Se ha producido un fallo al registrar la información del usuario.', 'error');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del usuario!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al registrar la información del usuario.', 'error');
 		    	console.log('Error: ' + error);
 		    });
 
 			e.preventDefault();
 		});
-
 		
 		// Modificar usuario
 		$('#form_usuario_modificar').submit(function(e) {
@@ -328,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(response => response.json())
 		    .then(result => {
 		    	if(!result.error) {
-		    		bootstrapAlert('Usuario modificado con éxito', 'success');
+		    		bootstrapAlert('Actualización de la información del usuario realizada satifastoriamente.', 'success');
 		    		modal('#modificarUsuarioModal', 'hide');
 		    		this.reset();
 
@@ -337,26 +348,29 @@ document.addEventListener('DOMContentLoaded', function() {
 		    		}, 100);
 				} else if(result.error == 'No permission.') {
 					modal('#modificarUsuarioModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de Usuarios', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar cambios en la información de los usuarios.', 'error');
+
 		    	} else if(result.error == 'DoesNotExist.') {
 		    		modal('#modificarUsuarioModal', 'hide');
-		    		bootstrapAlert('Usuario no está registrado', 'error');
+		    		bootstrapAlert('El usuario no se encuentra registrado en el sistema.', 'error');
+
 		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe Usuario registrado con esta cédula de identidad', 'error');
+		    		bootstrapAlert('Hay un usuario registrado con este número de cédula de identidad.', 'error');
+
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
+
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del Usuario!');
+		    		bootstrapAlert('Se ha producido un fallo al actualizar la información del usuario');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del Usuario!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al actualizar la información del usuario');
 		    	console.log('Error: ' + error);
 		    });
 
 			e.preventDefault();
 		});
-
 
 		// Modal eliminar usuario
 		$('#btn_usuario_eliminar').on('click', function() {
@@ -419,15 +433,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				container_producto_agregar_caucho.style.display = 'none';
 				container_producto_agregar_rin.style.display = 'none';
 			}
-
-
-			/* const precio = $("option[value=" + $(this).val() + "]", this).attr('data-precio');
-			const cantidad = $("option[value=" + $(this).val() + "]", this).attr('data-cantidad');
-
-			this.parentElement.parentElement.parentElement.querySelector('.input_precio').value = precio;
-			this.parentElement.parentElement.parentElement.querySelector('.input_precio_original').value = precio;
-			this.parentElement.parentElement.parentElement.querySelector('.input_cantidad').value = 1;
-			this.parentElement.parentElement.parentElement.querySelector('.input_cantidad').max = cantidad; */
 		});
 
 		// Agregar producto
@@ -443,8 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				console.log(result);
 
 		    	if(!result.error) {
-		    		bootstrapAlert('Producto registrado con éxito', 'success');
-					
+		    		bootstrapAlert('Registro del producto realizado satisfactoriamente.', 'success');
 					modal('#agregarProductoModal', 'hide');
 		    		this.reset();
 
@@ -457,24 +461,21 @@ document.addEventListener('DOMContentLoaded', function() {
 					
 				} else if(result.error == 'No permission.') {
 					modal('#agregarProductoModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de usuarios', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar registros de productos.', 'error');
 
 		    	} else if(result.error == 'DoesNotExist.') {
 					modal('#agregarProductoModal', 'hide');
-		    		bootstrapAlert('usuario no está registrado', 'error');
+		    		bootstrapAlert('El producto no se encuentra registrado en el sistema.', 'error');
 
-		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe usuario registrado con este rif', 'error');
-					
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del usuario!');
+		    		bootstrapAlert('Se ha producido un fallo al registrar la información del producto.', 'error');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del usuario!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al registrar la información del producto.', 'error');
 		    	console.log('Error: ' + error);
 		    });
 
@@ -493,8 +494,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(response => response.json())
 		    .then(result => {
 		    	if(!result.error) {
-		    		bootstrapAlert('Producto modificado con éxito', 'success');
-
+					bootstrapAlert('Actualización de la información del producto realizada satifastoriamente.', 'success');
 		    		modal('#modificarProductoModal', 'hide');
 		    		this.reset();
 
@@ -506,20 +506,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		    		}, 100);
 				} else if(result.error == 'No permission.') {
 					modal('#modificarProductoModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de Proveedors', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar cambios en la información de los productos.', 'error');
+
 		    	} else if(result.error == 'DoesNotExist.') {
 		    		modal('#modificarProductoModal', 'hide');
-		    		bootstrapAlert('Proveedor no está registrado', 'error');
-		    	} else if(result.error == 'CedulaNotUnique.') {
-		    		bootstrapAlert('Ya existe Proveedor registrado con esta cédula de identidad', 'error');
+		    		bootstrapAlert('El producto no se encuentra registrado en el sistema.', 'error');
+
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
+
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!');
+		    		bootstrapAlert('Se ha producido un fallo al actualizar la información del producto.');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al actualizar la información del producto.');
 		    	console.log('Error: ' + error);
 		    });
 
@@ -544,8 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			.then(response => response.json())
 			.then(result => {
 				if(!result.error) {
-					bootstrapAlert('Cantidad de producto sumada con éxito', 'success');
-
+					bootstrapAlert('La cantidad de producto se ha añadido satifastoriamente.', 'success');
 					modal('#cantidadProductoModal', 'hide');
 					document.querySelector('#producto_cantidad_valor').value = 0;
 
@@ -554,24 +554,21 @@ document.addEventListener('DOMContentLoaded', function() {
 					}, 100);
 				} else if(result.error == 'No permission.') {
 					modal('#cantidadProductoModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de Proveedors', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar cambios en la información de los productos.', 'error');
 
 				} else if(result.error == 'DoesNotExist.') {
 					modal('#cantidadProductoModal', 'hide');
-					bootstrapAlert('Proveedor no está registrado', 'error');
-
-				} else if(result.error == 'CedulaNotUnique.') {
-					bootstrapAlert('Ya existe Proveedor registrado con esta cédula de identidad', 'error');
+					bootstrapAlert('El producto no se encuentra registrado en el sistema.', 'error');
 
 				} else if(result.error == 'ValueError.') {
-					bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+					bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 
 				} else {
-					bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!');
+					bootstrapAlert('Se ha producido un fallo al actualizar la información del producto.');
 				}
 			})
 			.catch(function(error) {
-				bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!', 'error');
+				bootstrapAlert('Se ha producido un fallo al actualizar la información del producto.');
 				console.log('Error: ' + error);
 			});
 		});
@@ -594,8 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			.then(response => response.json())
 			.then(result => {
 				if(!result.error) {
-					bootstrapAlert('Cantidad de producto restada con éxito', 'success');
-
+					bootstrapAlert('La cantidad de producto se ha reducido satisfactoriamente.', 'success');
 					modal('#cantidadProductoModal', 'hide');
 					document.querySelector('#producto_cantidad_valor').value = 0;
 
@@ -604,26 +600,59 @@ document.addEventListener('DOMContentLoaded', function() {
 					}, 100);
 				} else if(result.error == 'No permission.') {
 					modal('#cantidadProductoModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para modificar información de Proveedors', 'error');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten realizar cambios en la información de los productos.', 'error');
 
 				} else if(result.error == 'DoesNotExist.') {
 					modal('#cantidadProductoModal', 'hide');
-					bootstrapAlert('Proveedor no está registrado', 'error');
-
-				} else if(result.error == 'CedulaNotUnique.') {
-					bootstrapAlert('Ya existe Proveedor registrado con esta cédula de identidad', 'error');
+					bootstrapAlert('El producto no se encuentra registrado en el sistema.', 'error');
 
 				} else if(result.error == 'ValueError.') {
-					bootstrapAlert('Ingrese todos los campos correctamente', 'error');
+					bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 
 				} else {
-					bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!');
+					bootstrapAlert('Se ha producido un fallo al actualizar la información del producto.');
 				}
 			})
 			.catch(function(error) {
-				bootstrapAlert('Ha ocurrido un error al modificar la información del Proveedor!', 'error');
+				bootstrapAlert('Se ha producido un fallo al actualizar la información del producto.');
 				console.log('Error: ' + error);
 			});
+		});
+
+		// Eliminar producto
+		$('#btn_producto_eliminar').on('click', function() {
+			productos_selected_id = document.querySelector('#productos_selected_id').value;
+
+			fetch('/api/productos/' + productos_selected_id, {
+		    	method: 'DELETE',
+		    	body: JSON.stringify({})
+		   	})
+		    .then(response => response.json())
+		    .then(result => {
+		    	if(!result.error) {
+					modal('#eliminarProductoModal', 'hide');
+		    		bootstrapAlert('Información del producto eliminada satisfactoriamente.', 'success');
+
+		    		setTimeout(() => {
+						fill_table('productos');
+					}, 100);
+		    	} else if(result.error == 'DoesNotExist.') {
+					modal('#eliminarProductoModal', 'hide');
+		    		bootstrapAlert('El producto no se encuentra registrado en el sistema.', 'error');
+
+		    	}
+		    	else if(result.error == 'No permission.') {
+					modal('#eliminarProductoModal', 'hide');
+		    		bootstrapAlert('Los privilegios de tu cuenta no permiten eliminar la información de los productos.', 'error');
+
+		    	} else {
+		    		bootstrapAlert('Se ha producido un fallo al eliminar la información del producto.');
+		    	}
+		    })
+		    .catch(function(error) {
+		    	bootstrapAlert('Se ha producido un fallo al eliminar la información del producto.', 'error');
+		    	console.log('Error: ' + error);
+		    });
 		});
 		
 
@@ -655,15 +684,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		
 		//Añade la información correspondiente al producto que está en el selectpicker oculto y lo añade a los que se generan en la tabla de venta
-		$('#venta_agregar_productos tbody').off('change', '.selectpicker');
-		$('#venta_agregar_productos tbody').on('change', '.selectpicker', function () {
+		$('#venta_agregar_productos tbody').off('change', '.select_producto');
+		$('#venta_agregar_productos tbody').on('change', '.select_producto', function () {
 			const precio = $("option[value=" + $(this).val() + "]", this).attr('data-precio');
 			const cantidad = $("option[value=" + $(this).val() + "]", this).attr('data-cantidad');
-
-			this.parentElement.parentElement.parentElement.querySelector('.input_precio').value = precio;
-			this.parentElement.parentElement.parentElement.querySelector('.input_precio_original').value = precio;
-			this.parentElement.parentElement.parentElement.querySelector('.input_cantidad').value = 1;
-			this.parentElement.parentElement.parentElement.querySelector('.input_cantidad').max = cantidad;
+			let tr = this.parentElement.parentElement.parentElement.parentElement.parentElement;
+			
+			tr.querySelector('.input_precio').value = precio;
+			tr.querySelector('.input_precio_original').value = precio;
+			tr.querySelector('.input_cantidad').value = 1;
+			tr.querySelector('.input_cantidad').max = cantidad;
 		});
 
 		//Actualiza el precio dependiendo de la cantidad del producto que se añada
@@ -687,6 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				cliente: clienteId,
 				productos: productos
 			}
+
 
 			fetch('/api/ventas/', {
 		    	method: 'POST',
@@ -802,7 +833,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		// Agregar servicio
 		$('#form_servicio_agregar').submit(function(e) {
-
 			const form_agregar_data = $('#form_servicio_agregar').serializeArray().reduce(function(obj, item) {obj[item.name] = item.value;return obj;}, {});
 
 			fetch('/api/servicios/', {
@@ -812,7 +842,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(response => response.json())
 		    .then(result => {
 				if(!result.error) {
-					bootstrapAlert(result.message, 'success');
+					bootstrapAlert('Registro del servicio realizado satisfactoriamente.', 'success');
 					modal('#agregarServicioModal', 'hide');
 		    		this.reset();
 
@@ -822,11 +852,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				}
 				else {
-					bootstrapAlert('Error al registrar el servicio!', 'danger');
+					bootstrapAlert('Se ha producido un fallo al registrar la información del servicio.', 'error');
 				}
 		    })
 		    .catch(function(error) {
-				bootstrapAlert('Error en la conexión o respuesta del servidor.', 'danger');
+				bootstrapAlert('Se ha producido un fallo al registrar la información del servicio.', 'error');
 		    });
 
 			e.preventDefault();
@@ -844,7 +874,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(response => response.json())
 		    .then(result => {
 		    	if(!result.error) {
-		    		bootstrapAlert('Servicio modificado con éxito', 'success');
+		    		bootstrapAlert('Actualización de la información del servicio realizada satifastoriamente.', 'success');
 		    		modal('#modificarServicioModal', 'hide');
 		    		this.reset();
 
@@ -852,23 +882,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		    			fill_table('servicios');
 		    		}, 100);
 		    	} else if(result.error == 'DoesNotExist.') {
-		    		bootstrapAlert('Servicio no está registrado', 'warning');
+		    		bootstrapAlert('El servicio no se encuentra registrado en el sistema.', 'error');
 		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Ingrese todos los campos correctamente', 'warning');
+		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
 		    	} else {
-		    		bootstrapAlert('Ha ocurrido un error al modificar la información del servicio!', 'warning');
+		    		bootstrapAlert('Se ha producido un fallo al actualizar la información del servicio.');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al modificar la información del servicio!', 'warning');
+		    	bootstrapAlert('Se ha producido un fallo al actualizar la información del servicio.');
 		    });
 
 			e.preventDefault();
-
 		});
 
 		// Eliminar servicio
-		$('#btn_usuario_eliminar').on('click', function() {
+		$('#btn_servicio_eliminar').on('click', function() {
 			servicios_selected_id = document.querySelector('#servicios_selected_id').value;
 
 			fetch('/api/servicios/' + servicios_selected_id, {
@@ -879,29 +908,26 @@ document.addEventListener('DOMContentLoaded', function() {
 		    .then(result => {
 		    	if(!result.error) {
 					modal('#eliminarServicioModal', 'hide');
+		    		bootstrapAlert('Información del servicio eliminada satisfactoriamente.', 'success');
 
-		    		bootstrapAlert('Servicio eliminado correctamente', 'success');
 		    		setTimeout(() => {
 						fill_table('servicios');
 					}, 100);
 
 		    	} else if(result.error == 'DoesNotExist.') {
 		    		modal('#eliminarServicioModal', 'hide');
-		    		bootstrapAlert('Servicio no está registrado', 'warning');
+		    		bootstrapAlert('El servicio no se encuentra registrado en el sistema.', 'error');
 		    	}else if(result.error == 'No permission.') {
 					modal('#eliminarServicioModal', 'hide');
-					bootstrapAlert('Tu cuenta no tiene permisos para eliminar servicios', 'info');
+					bootstrapAlert('Los privilegios de tu cuenta no permiten eliminar la información de los servicios.', 'error');
 				}else {
-		    		bootstrapAlert('Ha ocurrido un error al eliminar servicio', 'error');
+		    		bootstrapAlert('Se ha producido un fallo al eliminar la información del servicio.');
 		    	}
 		    })
 		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al eliminar servicio', 'error');
+		    	bootstrapAlert('Se ha producido un fallo al eliminar la información del servicio.');
 		    });
 		});
-
-		
-
 	}
 
 	if(window.location.pathname.split('/')[1] === 'registro-servicios') {
@@ -928,12 +954,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		}, 500);
 		
 		//Añade la información correspondiente al producto que está en el selectpicker oculto y lo añade a los que se generan en la tabla de venta
-		$('#registro_agregar_servicios tbody').off('change', '.selectpicker');
-		$('#registro_agregar_servicios tbody').on('change', '.selectpicker', function () {
+		$('#registro_agregar_servicios tbody').off('change', '.select_servicio');
+		$('#registro_agregar_servicios tbody').on('change', '.select_servicio', function () {
 			const precio = $("option[value=" + $(this).val() + "]", this).attr('data-precio');
 
-			this.parentElement.parentElement.parentElement.querySelector('.input_precio').value = precio;
-			this.parentElement.parentElement.parentElement.querySelector('.input_precio_original').value = precio;
+			let tr = this.parentElement.parentElement.parentElement.parentElement.parentElement;
+			
+			tr.querySelector('.input_precio').value = precio;
+			tr.querySelector('.input_precio_original').value = precio;
 		});
 
 		$(document).on('change, mouseup, keyup, input', '#registro_agregar_servicios tbody .input_cantidad', function () {
@@ -1039,89 +1067,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function updateServicesSelect() {
-	const services_options = document.querySelector('#services_options');
-
-	$(services_options).selectpicker('destroy').empty().append('<option value="" selected>Seleccionar servicio</option>');
-	
-	fetch('/api/servicios')
-	.then(response => response.json())
-	.then(data => {
-		data.forEach(servicio => {
-			var opt = document.createElement('option');
-			opt.value = servicio.codigo;
-			opt.innerHTML = servicio.nombre;
-			opt.dataset.precio = servicio.precio;
-			services_options.appendChild(opt);
-			
-		});
-
-		servicio_reset_table('registro_agregar_servicios');
-	})
-	.catch(function(error) {console.log('Error buscar servicios: ' + error);});
-}
-
-function updateProductSelect() {
-	const product_options = document.querySelector('#product_options');
-
-	$(product_options).selectpicker('destroy').empty().append('<option value="" selected>Seleccionar producto</option>');
-	
-	fetch('/api/productos')
-	.then(response => response.json())
-	.then(data => {
-		data.forEach(producto => {
-			if(producto.cantidad > 0){
-				var opt = document.createElement('option');
-				opt.value = producto.id;
-				opt.innerHTML = producto.nombre;
-				opt.dataset.cantidad = producto.cantidad;
-				opt.dataset.precio = producto.precio;
-				product_options.appendChild(opt);
-			}
-			
-		});
-
-		producto_reset_table('venta_agregar_productos');
-	})
-	.catch(function(error) {console.log('Error buscar productos: ' + error);});
-}
-
-function generar_div(nombre_label, valor_input, contenedor){
-
-
-	const label = document.createElement('label');
-	label.classList.add('block', 'text-sm', 'text-gray');
-
-	const span = document.createElement('span')
-	span.classList.add('text-gray-700', 'dark:text-gray-400')
-	span.textContent = nombre_label;
-
-	const input = document.createElement('input');
-	input.classList.add('block', 'w-full', 'mt-1', 'text-sm', 'dark:border-gray-600', 'dark:bg-gray-700', 'focus:border-purple-400', 'focus:outline-none', 'focus:shadow-outline-purple', 'dark:text-gray-300', 'dark:focus:shadow-outline-gray', 'form-input');
-	input.setAttribute('readonly', 'readonly');
-	input.value = valor_input;
-
-	label.appendChild(span);
-	label.appendChild(input);
-
-	contenedor.appendChild(label);
-}
-
-function bootstrapAlert(message, type) {
-	$('.bootstrap-growl').alert('close');
-
-	$.bootstrapGrowl(message, {
-		ele: 'body', // which element to append to
-		type: type, // (null, 'info', 'error', 'success')
-		offset: {from: 'bottom', amount: 30}, // 'top', or 'bottom'
-		align: 'center', // ('left', 'right', or 'center')
-		width: 800, // (integer, or 'auto')
-		delay: 3000,
-		allow_dismiss: true,
-		stackup_spacing: 10 // spacing between consecutively stacked growls.
-	});
-}
-
 function fill_table(tipo) {
 	if (tipo === 'clientes') {
 		$("#tabla_clientes thead").hide();
@@ -1142,7 +1087,7 @@ function fill_table(tipo) {
 							clientes_selected_id = document.querySelector('#clientes_selected_id').value;
 
 							if(!clientes_selected_id) {
-								alert('No hay cliente seleccionado');
+								bootstrapAlert('Debe seleccionar un cliente.', 'warning');
 								return;
 							}
 
@@ -1156,7 +1101,7 @@ function fill_table(tipo) {
 								document.querySelector('#cliente_detalles_direccion').value = cliente.direccion;
 							})
 							.catch(function(error) {
-								//toastr.error('Ha ocurrido un error al buscar el cliente');
+								bootstrapAlert('Se ha producido un fallo buscando la información del cliente.', 'error');
 								console.log('Error buscar cliente: ' + error);
 							});
 
@@ -1165,7 +1110,7 @@ function fill_table(tipo) {
 				},
 				{
 					'name': 'btn_modificar_cliente',
-					'text': 'Modificar',
+					'text': 'Editar',
 					'attr':  {
 						'id': 'btn_modificar_cliente', 
 						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
@@ -1176,7 +1121,7 @@ function fill_table(tipo) {
 							clientes_selected_id = document.querySelector('#clientes_selected_id').value;
 
 							if(!clientes_selected_id) {
-								alert('No hay cliente seleccionado');
+								bootstrapAlert('Debe seleccionar un cliente.', 'warning');
 								return;
 							}
 
@@ -1190,7 +1135,7 @@ function fill_table(tipo) {
 								document.querySelector('#cliente_modificar_direccion').value = cliente.direccion;
 							})
 							.catch(function(error) {
-								bootstrapAlert('Ha ocurrido un error al buscar el cliente', 'info');
+								bootstrapAlert('Se ha producido un fallo buscando la información del cliente.', 'error');
 								console.log('Error buscar cliente: ' + error);
 							});
 
@@ -1223,7 +1168,7 @@ function fill_table(tipo) {
                 'type': 'GET',
                 'dataSrc': '',
                 'error': function (jqXHR, ajaxOptions, thrownError) {
-                    bootstrapAlert('Ha ocurrido un error al cargar la lista de clientes', 'error');
+					bootstrapAlert('Se ha producido un fallo buscando la información del clientes.', 'error');
                     console.log('Error buscar clientes: ' + thrownError);
                 }
             },
@@ -1281,9 +1226,7 @@ function fill_table(tipo) {
 			$('#tabla_clientes tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
 		});
 
-
-	}else if(tipo === 'usuarios') {
-		
+	} else if(tipo === 'usuarios') {
 		$("#tabla_usuarios thead").hide();
         
 		table = $('#tabla_usuarios').DataTable({
@@ -1302,7 +1245,7 @@ function fill_table(tipo) {
                             usuarios_selected_id = document.querySelector('#usuarios_selected_id').value;
 
                             if(!usuarios_selected_id) {
-                                alert('No hay usuario seleccionado');
+                                bootstrapAlert('Debe seleccionar un usuario.', 'warning');
                                 return;
                             }
 
@@ -1326,7 +1269,7 @@ function fill_table(tipo) {
                 },
                 {
                     'name': 'btn_modificar_usuario',
-                    'text': 'Modificar',
+                    'text': 'Editar',
                     'attr':  {
                         'id': 'btn_modificar_usuario', 
                         'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
@@ -1337,7 +1280,7 @@ function fill_table(tipo) {
                             usuarios_selected_id = document.querySelector('#usuarios_selected_id').value;
 
                             if(!usuarios_selected_id) {
-                                alert('No hay usuario seleccionado');
+                                bootstrapAlert('Debe seleccionar un usuario.', 'warning');
                                 return;
                             }
 
@@ -1352,7 +1295,7 @@ function fill_table(tipo) {
 								document.querySelector('#usuario_modificar_rol').value = usuario.rol;
                             })
                             .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar el cliente', 'error');
+                                bootstrapAlert('Se ha producido un fallo buscando la información del usuario.', 'error');
                                 console.log('Error buscar cliente: ' + error);
                             });
 
@@ -1460,8 +1403,9 @@ function fill_table(tipo) {
             $('#tabla_usuarios tbody').addClass('flex flex-wrap');
             $('#tabla_usuarios tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
         });
-	}else if(tipo === 'proveedores') {
+	} else if(tipo === 'proveedores') {
         $("#tabla_proveedores thead").hide();
+
         table = $('#tabla_proveedores').DataTable({
 			'dom': 'Bfrtip',
 			'buttons': [
@@ -1478,7 +1422,7 @@ function fill_table(tipo) {
                             proveedores_selected_id = document.querySelector('#proveedores_selected_id').value;
 
                             if(!proveedores_selected_id) {
-                                alert('No hay proveedores seleccionado');
+                                bootstrapAlert('Debe seleccionar un proveedor.', 'warning');
                                 return;
                             }
 
@@ -1494,7 +1438,7 @@ function fill_table(tipo) {
 								document.querySelector('#proveedor_detalles_direccion').value = proveedor.direccion;
                             })
                             .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar el proveedor', 'error');
+                                bootstrapAlert('Se ha producido un fallo buscando la información del proveedor.', 'error');
                                 console.log('Error buscar proveedor: ' + error);
                             });
 
@@ -1503,7 +1447,7 @@ function fill_table(tipo) {
                 },
                 {
                     'name': 'btn_modificar_proveedor',
-                    'text': 'Modificar',
+                    'text': 'Editar',
                     'attr':  {
                         'id': 'btn_modificar_proveedor', 
                         'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
@@ -1514,7 +1458,7 @@ function fill_table(tipo) {
                             proveedores_selected_id = document.querySelector('#proveedores_selected_id').value;
 
                             if(!proveedores_selected_id) {
-                                alert('No hay proveedores seleccionado');
+                                bootstrapAlert('Debe seleccionar un proveedor.', 'warning');
                                 return;
                             }
 
@@ -1529,7 +1473,7 @@ function fill_table(tipo) {
 								document.querySelector('#proveedor_modificar_direccion').value = proveedor.direccion;
                             })
                             .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar el proveedor', 'error');
+                                bootstrapAlert('Se ha producido un fallo buscando la información del proveedor.', 'error');
                                 console.log('Error buscar proveedor: ' + error);
                             });
 
@@ -1562,7 +1506,7 @@ function fill_table(tipo) {
 				'type': 'GET',
 				'dataSrc': '',
 				'error': function(jqXHR, ajaxOptions, thrownError) {
-					bootstrapAlert('Ha ocurrido un error al cargar los proveedoress', 'error');
+					bootstrapAlert('Se ha producido un fallo buscando la información del proveedores.', 'error');
 					console.log('Error buscar proveedoress: ' + thrownError);
 				 }
 			},
@@ -1639,7 +1583,7 @@ function fill_table(tipo) {
 							productos_selected_id = document.querySelector('#productos_selected_id').value;
 
 							if(!productos_selected_id) {
-								alert('No hay producto seleccionado');
+								bootstrapAlert('Debe seleccionar un producto.', 'warning');
 								return;
 							}
 
@@ -1674,6 +1618,7 @@ function fill_table(tipo) {
 
 							})
 							.catch(function(error) {
+								bootstrapAlert('Se ha producido un fallo buscando la información del producto.', 'error');
 								console.log('Error buscar cliente: ' + error);
 							});
 
@@ -1682,7 +1627,7 @@ function fill_table(tipo) {
 				},
 				{
 					'name': 'btn_modificar_producto',
-					'text': 'Modificar',
+					'text': 'Editar',
 					'attr':  {
 						'id': 'btn_modificar_producto', 
 						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
@@ -1693,7 +1638,7 @@ function fill_table(tipo) {
 							productos_selected_id = document.querySelector('#productos_selected_id').value;
 
 							if(!productos_selected_id) {
-								alert('No hay producto seleccionado');
+								bootstrapAlert('Debe seleccionar un producto.', 'warning');
 								return;
 							}
 
@@ -1729,6 +1674,7 @@ function fill_table(tipo) {
 
 							})
 							.catch(function(error) {
+								bootstrapAlert('Se ha producido un fallo buscando la información del producto.', 'error');
 								console.log('Error buscar cliente: ' + error);
 							});
 
@@ -1745,7 +1691,7 @@ function fill_table(tipo) {
 					},
 					'action':
 						function(e) {
-							alert('asd');
+							modal('#eliminarProductoModal', 'show');
 						}
 				},
 				{
@@ -1761,7 +1707,7 @@ function fill_table(tipo) {
 							productos_selected_id = document.querySelector('#productos_selected_id').value;
 
 							if(!productos_selected_id) {
-								alert('No hay producto seleccionado');
+								bootstrapAlert('Debe seleccionar un producto.', 'warning');
 								return;
 							}
 
@@ -1781,7 +1727,7 @@ function fill_table(tipo) {
                 'type': 'GET',
                 'dataSrc': '',
                 'error': function (jqXHR, ajaxOptions, thrownError) {
-                    bootstrapAlert('Ha ocurrido un error al cargar la lista de productos', 'error');
+                    bootstrapAlert('Se ha producido un fallo buscando la información de productos.', 'error');
                     console.log('Error buscar productos: ' + thrownError);
                 }
             },
@@ -1872,13 +1818,13 @@ function fill_table(tipo) {
 								contenedor.innerHTML = '';
 								const productos = venta.productos[0];
 								var contador = 0;
+
+								const titulo = document.createElement('h3');
+								titulo.textContent = 'Productos Asociados';
+								titulo.classList.add('servicios_titulo', 'text-lg', 'font-semibold', 'text-gray-600', 'dark:text-gray-300');
+								contenedor.appendChild(titulo);
+								
 								productos.forEach((producto) => {
-
-									const titulo = document.createElement('h3');
-									titulo.textContent = 'Productos Asociados';
-									titulo.classList.add('servicios_titulo', 'text-lg', 'font-semibold', 'text-gray-600', 'dark:text-gray-300');
-									contenedor.appendChild(titulo);
-
 									const contenedor_labels = document.createElement('div')
 									contenedor_labels.classList.add('contenedor_labels')
 									contenedor.appendChild(contenedor_labels);
@@ -2038,7 +1984,7 @@ function fill_table(tipo) {
 		});
 
 		
-    }else if(tipo === 'servicios') {
+    } else if(tipo === 'servicios') {
         $("#tabla_servicios thead").hide();
         table = $('#tabla_servicios').DataTable({
 			'dom': 'Bfrtip',
@@ -2056,7 +2002,7 @@ function fill_table(tipo) {
                             servicios_selected_id = document.querySelector('#servicios_selected_id').value;
 
                             if(!servicios_selected_id) {
-                                alert('No hay servicios seleccionado');
+                                bootstrapAlert('Debe seleccionar un servicio.', 'warning');
                                 return;
                             }
 
@@ -2068,7 +2014,7 @@ function fill_table(tipo) {
                                 document.querySelector('#servicio_detalles_precio').value = servicio.precio;
                             })
                             .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar el servicio', 'error');
+                                bootstrapAlert('Se ha producido un fallo buscando la información del servicio.', 'error');
                                 console.log('Error buscar servicio: ' + error);
                             });
 
@@ -2077,7 +2023,7 @@ function fill_table(tipo) {
                 },
                 {
                     'name': 'btn_modificar_servicio',
-                    'text': 'Modificar',
+                    'text': 'Editar',
                     'attr':  {
                         'id': 'btn_modificar_servicio', 
                         'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
@@ -2088,7 +2034,7 @@ function fill_table(tipo) {
                             servicios_selected_id = document.querySelector('#servicios_selected_id').value;
 
                             if(!servicios_selected_id) {
-                                alert('No hay servicio seleccionado');
+                                bootstrapAlert('Debe seleccionar un servicio.', 'warning');
                                 return;
                             }
 
@@ -2100,7 +2046,7 @@ function fill_table(tipo) {
                                 document.querySelector('#servicio_modificar_precio').value = servicio.precio;
                             })
                             .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar el servicio', 'error');
+                                bootstrapAlert('Se ha producido un fallo buscando la información del servicio.', 'error');
                                 console.log('Error buscar servicio: ' + error);
                             });
 
@@ -2133,7 +2079,7 @@ function fill_table(tipo) {
 				'type': 'GET',
 				'dataSrc': '',
 				'error': function(jqXHR, ajaxOptions, thrownError) {
-					bootstrapAlert('Ha ocurrido un error al cargar los servicios', 'error');
+					bootstrapAlert('Se ha producido un fallo buscando la información de servicios.', 'error');
 					console.log('Error buscar servicios: ' + thrownError);
 				 }
 			},
@@ -2189,7 +2135,7 @@ function fill_table(tipo) {
             $('#tabla_servicios tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
         });
 
-	}else if(tipo === 'servicio-facturado') {
+	} else if(tipo === 'servicio-facturado') {
 		$("#tabla_servicios_facturados thead").hide();
         table = $('#tabla_servicios_facturados').DataTable({
 			'dom': 'Bfrtip',
@@ -2223,14 +2169,14 @@ function fill_table(tipo) {
 
 								const contenedor = document.getElementById('servicios_informacion');
 								contenedor.innerHTML = '';
+
+								const titulo = document.createElement('h4');
+								titulo.textContent = 'Servicios Asociados';
+								titulo.classList.add('servicios_titulo', 'text-lg', 'font-semibold', 'text-gray-600', 'dark:text-gray-300');
+								contenedor.appendChild(titulo);
+								
 								const serviciosFacturado = servicio_facturado.servicios;
 								serviciosFacturado.forEach((servicioFacturado) => {
-
-									const titulo = document.createElement('h4');
-									titulo.textContent = 'Servicios Asociados';
-									titulo.classList.add('servicios_titulo', 'text-lg', 'font-semibold', 'text-gray-600', 'dark:text-gray-300');
-									contenedor.appendChild(titulo);
-
 									const contenedor_labels = document.createElement('div')
 									contenedor_labels.classList.add('contenedor_labels')
 									contenedor.appendChild(contenedor_labels);
@@ -2325,9 +2271,9 @@ function productos_get_table_data(table_id) {
     let all_data_table = [];
 
     $('#' + table_id + ' tbody tr').each(function(index) {
-        const producto_id = this.children[1].querySelector('.selectpicker').value;
-        const cantidad = this.children[2].children[0].value;
-        const monto = this.children[3].children[0].value;
+        const producto_id = this.children[1].querySelector('.select_producto').value;
+        const cantidad = this.children[2].children[0].children[1].value;
+        const monto = this.children[3].children[0].children[1].value;
 
         if (producto_id) {
             let current = {
@@ -2339,6 +2285,7 @@ function productos_get_table_data(table_id) {
         }
     });
 
+
     return all_data_table;
 }
 
@@ -2346,9 +2293,9 @@ function servicios_get_table_data(table_id) {
     let all_data_table = [];
 
     $('#' + table_id + ' tbody tr').each(function(index) {
-        const servicio_id = this.children[1].querySelector('.selectpicker').value;
-        const monto = this.children[2].children[0].value;
 
+		const servicio_id = this.children[1].querySelector('.select_servicio').value;
+        const monto = this.children[2].children[0].children[1].value;
 
         if (servicio_id) {
             let current = {
@@ -2362,26 +2309,139 @@ function servicios_get_table_data(table_id) {
     return all_data_table;
 }
 
+function updateServicesSelect() {
+	const services_options = document.querySelector('#services_options');
+
+	$(services_options).selectpicker('destroy').empty().append('<option value="" selected>Seleccionar servicio</option>');
+	fetch('/api/servicios')
+	.then(response => response.json())
+	.then(data => {
+		data.forEach(servicio => {
+			var opt = document.createElement('option');
+			opt.value = servicio.codigo;
+			opt.innerHTML = servicio.nombre;
+			opt.dataset.precio = servicio.precio;
+			services_options.appendChild(opt);
+			
+		});
+
+		servicio_reset_table('registro_agregar_servicios');
+		
+	})
+	.catch(function(error) {console.log('Error buscar servicios: ' + error);});
+}
+
+function updateProductSelect() {
+	const product_options = document.querySelector('#product_options');
+
+	$(product_options).selectpicker('destroy').empty().append('<option value="" selected>Seleccionar producto</option>');
+	
+	fetch('/api/productos')
+	.then(response => response.json())
+	.then(data => {
+		data.forEach(producto => {
+			if(producto.cantidad > 0){
+				var opt = document.createElement('option');
+				opt.value = producto.id;
+				opt.innerHTML = producto.nombre;
+				opt.dataset.cantidad = producto.cantidad;
+				opt.dataset.precio = producto.precio;
+				product_options.appendChild(opt);
+			}
+			
+		});
+
+		producto_reset_table('venta_agregar_productos');
+	})
+	.catch(function(error) {console.log('Error buscar productos: ' + error);});
+}
+
+function generar_div(nombre_label, valor_input, contenedor){
+
+
+	const label = document.createElement('label');
+	label.classList.add('block', 'text-sm', 'text-gray');
+
+	const span = document.createElement('span')
+	span.classList.add('text-gray-700', 'dark:text-gray-400')
+	span.textContent = nombre_label;
+
+	const input = document.createElement('input');
+	input.classList.add('block', 'w-full', 'mt-1', 'text-sm', 'dark:border-gray-600', 'dark:bg-gray-700', 'focus:border-purple-400', 'focus:outline-none', 'focus:shadow-outline-purple', 'dark:text-gray-300', 'dark:focus:shadow-outline-gray', 'form-input');
+	input.setAttribute('readonly', 'readonly');
+	input.value = valor_input;
+
+	label.appendChild(span);
+	label.appendChild(input);
+
+	contenedor.appendChild(label);
+}
+
 function productos_add_table_row(table_id) {
 	const count = $('#' + table_id + ' tbody tr').length;
 	const select_options = document.querySelector('#product_options').innerHTML;
 
 	$('#' + table_id).find('tbody').append(
-		`<tr>
-			<td scope="row">${count+1}</td>
-			<td>
-				<select class="form-control selectpicker" data-live-search="true">${select_options}</select>
+		`
+		<tr class="text-gray-700 dark:text-gray-400">
+			<td class="px-4 py-3">
+				<div class="flex items-center text-sm">
+					<div>
+						<p class="font-semibold">${count+1}</p>
+
+					</div>
+				</div>
 			</td>
-			<td><input type="number" class="form-control input_cantidad" step="1" min="1" value="1" oninput="validity.valid||(value='');"></td>
-			<td>
-				<input type="number" class="form-control input_precio" step=".01" value="0.00" readonly>
-				<input type="hidden" class="input_precio_original" readonly>
+			<td class="px-4 py-3">
+				<div class="text-sm">
+					<label class="block text-sm">
+						<div class=" text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+							<select
+								class="select_producto block w-24 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+								data-live-search="true">
+								${select_options}
+							</select>
+						</div>
+					</label>
+				</div>
 			</td>
-			<td><button type="button" class="btn btn-danger btn-sm" onclick="delete_row(this)"><i class="fa fa-trash"></i></button></td>
-		</tr>`
+			<td class="px-4 py-3 text-sm">
+				<label class="block text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Cantidad</span>
+					<input
+						class="input_cantidad block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+						placeholder="0,00" step="1" min="1" value="1" oninput="validity.valid||(value='')" type="number"/>
+				</label>
+			</td>
+			<td class="px-4 py-3 text-sm">
+				<label class="block text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Monto</span>
+					<input
+						class="input_precio block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+						placeholder="0,00" step=".01" value="0.00" readonly />
+						<input type="hidden" class="input_precio_original" readonly>
+				</label>
+			</td>
+			<td class="px-4 py-3">
+				<div class="flex items-center space-x-4 text-sm">
+					<button
+						class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+						aria-label="Delete" onclick="delete_row(this)"
+				>
+				<svg
+					class=" w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+						<path fill-rule="evenodd"
+							d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+							clip-rule="evenodd"></path>
+						</svg>
+					</button>
+				</div>
+			</td>
+		</tr>
+		`
 	);
 
-	$('.selectpicker').selectpicker();
+	// $('.selectpicker').selectpicker();
 }
 
 function servicios_add_table_row(table_id) {
@@ -2389,22 +2449,57 @@ function servicios_add_table_row(table_id) {
 	const select_options = document.querySelector('#services_options').innerHTML;
 
 	$('#' + table_id).find('tbody').append(
-		`<tr>
-			<td scope="row">${count+1}</td>
-			<td>
-				<select class="form-control selectpicker" data-live-search="true">${select_options}</select>
+		`
+		<tr class="text-gray-700 dark:text-gray-400">
+			<td class="px-4 py-3">
+				<div class="flex items-center text-sm">
+					<div>
+						<p class="font-semibold">${count+1}</p>
+
+					</div>
+				</div>
 			</td>
-			<td>
-				<input type="number" class="form-control input_precio" step=".01" value="0.00" readonly>
-				<input type="hidden" class="input_precio_original" readonly>
+			<td class="px-4 py-3">
+				<div class="text-sm">
+					<label class="block text-sm">
+						<div class=" text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
+							<select
+								class="select_servicio block w-24 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+								data-live-search="true">
+								<option value="">${select_options}</option>
+							</select>
+
+						</div>
+					</label>
+				</div>
 			</td>
-			<td><button type="button" class="btn btn-danger btn-sm" onclick="delete_row(this)"><i class="fa fa-trash"></i></button></td>
-		</tr>`
+			<td class="px-4 py-3 text-sm">
+				<label class="block text-sm">
+					<span class="text-gray-700 dark:text-gray-400">Monto</span>
+					<input
+						class="input_precio block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+						placeholder="0,00" type="number" step=".01" value="0.00" readonly />
+						<input type="hidden" class="input_precio_original" readonly>
+				</label>
+			</td>
+			<td class="px-4 py-3">
+				<div class="flex items-center space-x-4 text-sm">
+					<button
+						class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+						aria-label="Delete" onclick="delete_row(this)">
+						<svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd"
+								d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+								clip-rule="evenodd"></path>
+						</svg>
+					</button>
+				</div>
+			</td>
+		</tr>
+		`
 	);
 
-
-
-	$('.selectpicker').selectpicker();
+	// $('.selectpicker').selectpicker();
 }
 
 function productos_load_table_data(table_id, data) {
@@ -2442,7 +2537,7 @@ function servicio_reset_table(table_id) {
 }
 
 function delete_row(btn) {
-	btn.parentElement.parentElement.remove();
+	btn.parentElement.parentElement.parentElement.remove();
 }
 
 function reset_modal_agregar(form_id){
@@ -2491,61 +2586,3 @@ function bootstrapAlert(message, type) {
 		stackup_spacing: 10 // spacing between consecutively stacked growls.
 	});
 }
-
-// $('.btn-detalles').on('click', function () {
-// 	var venta_id = $(this).data('venta-id');
-
-// 	if(venta_id) {
-// 		fetch('/api/ventas/' + venta_id)
-// 		.then(response => response.json())
-// 		.then(venta => {
-// 			const cliente = venta.cliente[0];
-// 			document.querySelector('#venta_detalles_nroVenta').value = venta.id;
-// 			document.querySelector('#venta_detalles_fecha').value = venta.fecha;
-// 			document.querySelector('#venta_detalles_total').value = venta.total;
-// 			document.querySelector('#cliente_detalles_cedula').value = cliente.cedula;
-// 			document.querySelector('#cliente_detalles_num_tlf').value = cliente.num_tlf;
-// 			document.querySelector('#cliente_detalles_nombres').value = cliente.names;
-
-// 			const contenedor = document.getElementById('productos_informacion');
-// 			contenedor.innerHTML = '';
-// 			const productos = venta.productos[0];
-// 			var contador = 0;
-// 			productos.forEach((producto) => {
-// 				console.log(venta.cantidad[0][venta.detalles[0][contador].id]);
-
-// 				const titulo = document.createElement('h3');
-// 				titulo.textContent = producto.nombre;
-// 				const div_titulo = document.createElement('div');
-// 				div_titulo.classList.add('col-md-12', 'mb-3');
-// 				div_titulo.appendChild(titulo);
-// 				contenedor.appendChild(div_titulo);
-
-// 				generar_div("Nombre", producto.nombre, contenedor)
-// 				generar_div("Precio", producto.precio, contenedor)
-// 				generar_div("Descripcion", producto.descripcion, contenedor)
-// 				if (producto.extra.marca !== undefined) generar_div("Marca", producto.extra.marca, contenedor);
-				
-// 				generar_div("Cantidad Solicitada", venta.cantidad[0][venta.detalles[0][contador].id], contenedor);
-// 				contador++;
-
-// 				if(producto.extra.producto_type == 2){
-// 					generar_div("Medidas", producto.extra.medidas, contenedor)
-// 					generar_div("Calidad", producto.extra.calidad, contenedor)
-// 				}else if(producto.extra.producto_type == 3){
-// 					generar_div("Vizcocidad", producto.extra.vizcosidad, contenedor)
-// 					generar_div("Tipo", producto.extra.tipo, contenedor)
-// 				}
-
-// 			});
-// 		})
-// 		.catch(function(error) {
-// 			bootstrapAlert('Ha ocurrido un error al buscar el cliente', 'error');
-// 			console.log('Error buscar cliente: ' + error);
-// 		});
-
-// 		$('#detallesVentaModal').modal('show');
-// 	} else {
-// 		bootstrapAlert('No se ha seleccionado ningún cliente', 'info');
-// 	}
-// });

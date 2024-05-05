@@ -99,3 +99,10 @@ button:disabled  {
     border-top: 2px solid #323541;
 }
 
+.contenedor_labels{
+    margin: 10px 0px !important;
+}
+
+.tbody_table{
+    margin-top: 20px;
+}

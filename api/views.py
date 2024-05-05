@@ -396,6 +396,21 @@ def productos(request, id=None, action=None):
 
         return JsonResponse({"error": "Error."}, status=417)
 
+    if request.method == "DELETE":
+        if not request.user.is_superuser:
+            return JsonResponse({"error": "No permission."}, status=417)
+        
+        if id != None:
+            try:
+                Producto.objects.get(id=id).delete()
+                return JsonResponse({"message": "Producto eliminado."}, status=201)
+            except IntegrityError:
+                return JsonResponse({"error": "IntegrityError."}, status=417)
+            except User.DoesNotExist:
+                return JsonResponse({"error": "DoesNotExist."}, status=417)
+
+        return JsonResponse({"error": "Error."}, status=417)
+
 @csrf_exempt
 def ventas(request, id=None):
 

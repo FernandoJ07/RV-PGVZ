@@ -29,7 +29,7 @@
                         <th class="px-4 py-3">Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"></tbody>
+                <tbody class="tbody_table bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"></tbody>
             </table>
         </div>
     </div>
@@ -400,82 +400,20 @@
         </div>
     </div>
 
-    <!-- Modificar cliente Modal -->
-    <div id="modificarClienteModal" class="modal modal-lg">
+    <!-- Eliminar producto Modal -->
+    <div id="eliminarProductoModal" class="modal modal-lg">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="px-4 py-2 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                     <div class="modal-close dark:text-gray-300">&times;</div>
 
                     <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                        Editar información de cliente
+                        Eliminar producto
                     </h4>
 
-                    <form id="form_cliente_modificar">
-                        <label class="block text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Nombres y apellidos</span>
-    
-                            <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                                <input id="cliente_modificar_nombres" name="fullname" class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
-                                <div class="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </label>
-                        
-                        <label class="block text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Cédula</span>
-    
-                            <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                                <input id="cliente_modificar_cedula" class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
-                                <div class="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </label>
-    
-                        <label class="block text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Teléfono</span>
-    
-                            <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                                <input id="cliente_modificar_num_tlf" name="num_tlf" class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
-                                <div class="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </label>
-
-                        <label class="block text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Correo</span>
-    
-                            <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                                <input id="cliente_modificar_email" name="email" class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
-                                <div class="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </label>
-    
-                        <label class="block mt-4 text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Dirección</span>
-                            <textarea id="cliente_modificar_direccion" name="direccion" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3"></textarea>
-                        </label>
-    
-                        <div class="py-2">
-                            <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                Guardar
-                            </button>
-                        </div>
-                    </form>
-
+                    <p class="text-gray-700 dark:text-gray-400">¿Está seguro de que desea eliminar a este producto?</p>
+                    
+                    <button id="btn_producto_eliminar" class="px-4 py-2 mt-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Eliminar</button>
                 </div>
             </div>
         </div>
