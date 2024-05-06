@@ -20,10 +20,11 @@
 }
 
 .dataTables_paginate{
-    margin-top: 15px !important;
+    padding-top: 15px !important;
     display: flex;
     justify-content: end;
     align-items: center;
+    border-top: 1px solid #2d374850;
 
 }
 
@@ -40,7 +41,7 @@
 }
 
 .dataTables_paginate span .current{
-    background-color: #7e3af2
+    background-color: #e97415
 }
 
 
@@ -134,4 +135,9 @@ button:disabled  {
 
 .btn_detail_color:hover{
 	background-color: #0042db !important;
+}
+
+.tablas tbody tr td{
+    padding: 10px 12px;
+
 }

@@ -1069,7 +1069,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function fill_table(tipo) {
 	if (tipo === 'clientes') {
-		$("#tabla_clientes thead").hide();
 
         table = $('#tabla_clientes').DataTable({
             'dom': 'Bfrtip',
@@ -1173,31 +1172,18 @@ function fill_table(tipo) {
                 }
             },
             'columns': [
-                {
-                    render: function (data, type, row, meta) {
-                        const html = `
-                        	<input type="hidden" name="cliente_id" value="${row.id}">
-
-							<div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-								<p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-									${row.shortname}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.cedula}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.num_tlf}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.email}
-								</p>
-							</div>
-                        `;
-
-                        return html;
-                    }
-                },
+                {"data": "shortname"},
+                {"data": "cedula"},
+                {"data": "num_tlf"},
+                {"data": "email"},
             ],
+			"columnDefs": [
+
+				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+				
+
+			]
             
         });
 
@@ -1221,10 +1207,7 @@ function fill_table(tipo) {
 			table.button('btn_toggle_cliente:name').nodes().attr('disabled', btn_disabled_value);
 		});
 
-		table.on('draw', function(data) {
-			$('#tabla_clientes tbody').addClass('flex flex-wrap');
-			$('#tabla_clientes tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-		});
+
 
 	} else if(tipo === 'usuarios') {
 		$("#tabla_usuarios thead").hide();
