@@ -1178,11 +1178,8 @@ function fill_table(tipo) {
                 {"data": "email"},
             ],
 			"columnDefs": [
-
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
-				
-
 			]
             
         });
@@ -1210,7 +1207,6 @@ function fill_table(tipo) {
 
 
 	} else if(tipo === 'usuarios') {
-		$("#tabla_usuarios thead").hide();
         
 		table = $('#tabla_usuarios').DataTable({
 			'dom': 'Bfrtip',
@@ -1315,50 +1311,15 @@ function fill_table(tipo) {
 				 }
 			},
 			'columns': [
-                {
-                    render: function (data, type, row, meta) {
-						let html = ``
-						
-						if(row.is_superuser){
-							html = `
-                            <input type="hidden" name="usuario_id" value="${row.id}">
-
-                            <div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-                                <p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-                                    ${row.username}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.rol}
-                                </p>
-                            </div>
-                        `;
-						}
-						else{
-							html = `
-                            <input type="hidden" name="usuario_id" value="${row.id}">
-
-                            <div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-                                <p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-                                    ${row.shortname}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.cedula}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.num_tlf}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.email}
-                                </p>
-                            </div>
-                        `;
-						}
-                        
-
-                        return html;
-                    }
-                },
+                {"data": "shortname"},
+                {"data": "cedula"},
+                {"data": "num_tlf"},
+                {"data": "email"},
             ],
+			"columnDefs": [
+				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+			]
 		});
 
 		$('#tabla_usuarios tbody').off('click', 'tr').on('click', 'tr', function () {
@@ -1382,12 +1343,7 @@ function fill_table(tipo) {
             table.button('btn_toggle_usuario:name').nodes().attr('disabled', btn_disabled_value);
         });
 
-        table.on('draw', function(data) {
-            $('#tabla_usuarios tbody').addClass('flex flex-wrap');
-            $('#tabla_usuarios tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-        });
 	} else if(tipo === 'proveedores') {
-        $("#tabla_proveedores thead").hide();
 
         table = $('#tabla_proveedores').DataTable({
 			'dom': 'Bfrtip',
@@ -1494,32 +1450,16 @@ function fill_table(tipo) {
 				 }
 			},
 			'columns': [
-                {
-                    render: function (data, type, row, meta) {
-						
-						html = `
-							<input type="hidden" name="proveedor_id" value="${row.id}">
-
-							<div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-								<p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-									${row.shortname}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.rif}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.num_tlf}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.email}
-								</p>
-							</div>
-						`;
-						
-                        return html;
-                    }
-                },
+				{"data": "id"},
+                {"data": "shortname"},
+                {"data": "rif"},
+                {"data": "num_tlf"},
+                {"data": "email"},
             ],
+			"columnDefs": [
+				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+			]
 		});
 
 		$('#tabla_proveedores tbody').off('click', 'tr').on('click', 'tr', function () {
@@ -1542,13 +1482,7 @@ function fill_table(tipo) {
             table.button('btn_modificar_proveedor:name').nodes().attr('disabled', btn_disabled_value);
             table.button('btn_toggle_proveedor:name').nodes().attr('disabled', btn_disabled_value);
         });
-
-        table.on('draw', function(data) {
-            $('#tabla_proveedores tbody').addClass('flex flex-wrap');
-            $('#tabla_proveedores tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-        });
     } else if(tipo === 'productos') {
-		$("#tabla_productos thead").hide();
 
         table = $('#tabla_productos').DataTable({
             'dom': 'Bfrtip',
@@ -1714,29 +1648,16 @@ function fill_table(tipo) {
                     console.log('Error buscar productos: ' + thrownError);
                 }
             },
-            'columns': [
-                {
-                    render: function (data, type, row, meta) {
-                        const html = `
-                        	<input type="hidden" name="producto_id" value="${row.id}">
-
-							<div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-								<p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-									${row.nombre}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Cantidad: ${row.cantidad}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Precio: ${row.precio}
-								</p>
-							</div>
-                        `;
-
-                        return html;
-                    }
-                },
+			'columns': [
+                {"data": "id"},
+                {"data": "nombre"},
+                {"data": "cantidad"},
+                {"data": "precio"},
             ],
+			"columnDefs": [
+				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+			],
         });
 
 		$('#tabla_productos tbody').off('click', 'tr').on('click', 'tr', function () {
@@ -1760,13 +1681,7 @@ function fill_table(tipo) {
 			table.button('btn_cantidad_producto:name').nodes().attr('disabled', btn_disabled_value);
 		});
 
-		table.on('draw', function(data) {
-			$('#tabla_productos tbody').addClass('flex flex-wrap');
-			$('#tabla_productos tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-		});
-
     } else if(tipo === 'ventas') {
-        $("#tabla_ventas thead").hide();
         table = $('#tabla_ventas').DataTable({
 			'dom': 'Bfrtip',
 			'buttons': [
@@ -1850,40 +1765,23 @@ function fill_table(tipo) {
 				'type': 'GET',
 				'dataSrc': '',
 				'error': function(jqXHR, ajaxOptions, thrownError) {
-					bootstrapAlert('Ha ocurrido un error al cargar las ventas', 'error');
+					bootstrapAlert('Ha ocurrido un error al cargar las ventas ', 'error');
+					console.log(data)
 				 }
 			},
 			'columns': [
-                {
-                    render: function (data, type, row, meta) {
-
-						html = `
-                            <input type="hidden" name="venta_id" value="${row.id}">
-
-                            <div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-                                <p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-                                    Nro de Venta:${row.id}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.fecha}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.cliente[0].shortname}
-                                </p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.cliente[0].cedula}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-                                    Total: ${row.total}
-                                </p>
-                            </div>
-                        `;
-                        
-
-                        return html;
-                    }
-                },
-            ],
+					{"data": "fecha"},
+					{"data": "cliente[0].cedula"},
+					{"data": "cliente[0].shortname"},
+					{"data": "total"}
+				],
+				"columnDefs": [
+	
+					{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+					{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+					
+	
+				]
 		});
 
 		$('#tabla_ventas tbody').off('click', 'tr').on('click', 'tr', function () {
@@ -1907,10 +1805,6 @@ function fill_table(tipo) {
             table.button('btn_toggle_venta:name').nodes().attr('disabled', btn_disabled_value);
         });
 
-        table.on('draw', function(data) {
-            $('#tabla_ventas tbody').addClass('flex flex-wrap');
-            $('#tabla_ventas tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-        });
     } else if(tipo === 'transacciones') {
 		$("#tabla_transacciones thead").hide();
         table = $('#tabla_transacciones').DataTable({
@@ -1968,7 +1862,6 @@ function fill_table(tipo) {
 
 		
     } else if(tipo === 'servicios') {
-        $("#tabla_servicios thead").hide();
         table = $('#tabla_servicios').DataTable({
 			'dom': 'Bfrtip',
 			'buttons': [
@@ -2067,29 +1960,14 @@ function fill_table(tipo) {
 				 }
 			},
 			'columns': [
-                {
-                    render: function (data, type, row, meta) {
-						
-						html = `
-							<input type="hidden" name="servicio_id" value="${row.id}">
-
-							<div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-								<p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-									Codigo: ${row.codigo}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.nombre}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									${row.precio}
-								</p>
-							</div>
-						`;
-						
-                        return html;
-                    }
-                },
+                {"data": "codigo"},
+                {"data": "nombre"},
+                {"data": "precio"},
             ],
+			"columnDefs": [
+				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+			]
 		});
 
 		$('#tabla_servicios tbody').off('click', 'tr').on('click', 'tr', function () {
@@ -2113,10 +1991,6 @@ function fill_table(tipo) {
             table.button('btn_toggle_servicio:name').nodes().attr('disabled', btn_disabled_value);
         });
 
-        table.on('draw', function(data) {
-            $('#tabla_servicios tbody').addClass('flex flex-wrap');
-            $('#tabla_servicios tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-        });
 
 	} else if(tipo === 'servicio-facturado') {
 		$("#tabla_servicios_facturados thead").hide();
