@@ -1079,7 +1079,7 @@ function fill_table(tipo) {
 					'text': 'Detalles cliente',
 					'attr':  {
 						'id': 'btn_detalles_cliente', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1113,7 +1113,7 @@ function fill_table(tipo) {
 					'text': 'Editar',
 					'attr':  {
 						'id': 'btn_modificar_cliente', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_edit_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1147,7 +1147,7 @@ function fill_table(tipo) {
 					'text': 'Eliminar',
 					'attr':  {
 						'id': 'btn_toggle_cliente', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1237,7 +1237,7 @@ function fill_table(tipo) {
                     'text': 'Detalles usuario',
                     'attr':  {
                         'id': 'btn_detalles_usuario', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1272,7 +1272,7 @@ function fill_table(tipo) {
                     'text': 'Editar',
                     'attr':  {
                         'id': 'btn_modificar_usuario', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1307,7 +1307,7 @@ function fill_table(tipo) {
                     'text': 'Eliminar',
                     'attr':  {
                         'id': 'btn_toggle_usuario', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1414,7 +1414,7 @@ function fill_table(tipo) {
                     'text': 'Detalles proveedor',
                     'attr':  {
                         'id': 'btn_detalles_proveedor', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1450,7 +1450,7 @@ function fill_table(tipo) {
                     'text': 'Editar',
                     'attr':  {
                         'id': 'btn_modificar_proveedor', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1485,7 +1485,7 @@ function fill_table(tipo) {
                     'text': 'Eliminar',
                     'attr':  {
                         'id': 'btn_toggle_proveedor', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1575,7 +1575,7 @@ function fill_table(tipo) {
 					'text': 'Detalles producto',
 					'attr':  {
 						'id': 'btn_detalles_producto', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1630,7 +1630,7 @@ function fill_table(tipo) {
 					'text': 'Editar',
 					'attr':  {
 						'id': 'btn_modificar_producto', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1686,7 +1686,7 @@ function fill_table(tipo) {
 					'text': 'Eliminar',
 					'attr':  {
 						'id': 'btn_toggle_producto', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1699,7 +1699,7 @@ function fill_table(tipo) {
 					'text': 'Sumar/Restar cantidad',
 					'attr':  {
 						'id': 'btn_cantidad_producto', 
-						'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+						'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
 						'disabled': true
 					},
 					'action':
@@ -1792,7 +1792,7 @@ function fill_table(tipo) {
                     'text': 'Detalles Venta',
                     'attr':  {
                         'id': 'btn_detalles_venta', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -1994,7 +1994,7 @@ function fill_table(tipo) {
                     'text': 'Detalles servicio',
                     'attr':  {
                         'id': 'btn_detalles_servicio', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -2026,7 +2026,7 @@ function fill_table(tipo) {
                     'text': 'Editar',
                     'attr':  {
                         'id': 'btn_modificar_servicio', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -2058,7 +2058,7 @@ function fill_table(tipo) {
                     'text': 'Eliminar',
                     'attr':  {
                         'id': 'btn_toggle_servicio', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':
@@ -2145,7 +2145,7 @@ function fill_table(tipo) {
                     'text': 'Detalles servicios facturados',
                     'attr':  {
                         'id': 'btn_detalles_servicios_facturados', 
-                        'class': 'bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
                         'disabled': true
                     },
                     'action':

@@ -106,3 +106,32 @@ button:disabled  {
 .tbody_table{
     margin-top: 20px;
 }
+
+
+/* Modificaciones del color de los botones */
+
+.btn_color_orange {
+	background-color: #ff8c26 !important;
+}
+
+.btn_color_orange:hover{
+	background-color: #ff7800 !important;
+}
+
+.btn_edit_and_delete_color{
+	background-color: #ffffff !important;
+    border: 0px;
+}
+
+.btn_edit_and_delete_color:hover{
+	background-color: #aaaaaa !important;
+}
+
+.btn_detail_color {
+	background-color: #2e6dff !important;
+    border: 0px;
+}
+
+.btn_detail_color:hover{
+	background-color: #0042db !important;
+}
