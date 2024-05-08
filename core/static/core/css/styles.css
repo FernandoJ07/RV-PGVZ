@@ -106,3 +106,12 @@ button:disabled  {
 .tbody_table{
     margin-top: 20px;
 }
+
+.botones_registrar{
+    background-color: #ff8c26 !important; 
+}
+
+.btn_detalles_general{
+    background-color: lightblue !important; 
+
+}
