@@ -41,13 +41,12 @@
 }
 
 .dataTables_paginate span .current{
-    background-color: #e97415
+    background-color: #e97415;
 }
 
 
 .selected {
-    outline: solid yellow !important;
-    border-radius: 5px;
+    background-color: #292b35;
 }
 
 tr {

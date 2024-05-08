@@ -1172,13 +1172,15 @@ function fill_table(tipo) {
                 }
             },
             'columns': [
-                {"data": "shortname"},
+                {"data": "id"},
+				{"data": "shortname"},
                 {"data": "cedula"},
                 {"data": "num_tlf"},
                 {"data": "email"},
             ],
 			"columnDefs": [
-				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
+				{className: 'hidden', searchable: false, targets: [ 0 ]},
+				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 1},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 			]
             
@@ -1186,7 +1188,7 @@ function fill_table(tipo) {
 
 		$('#tabla_clientes tbody').off('click', 'tr').on('click', 'tr', function () {
 			const clientes_selected = document.querySelector('#clientes_selected_id');
-			const current_cliente = this.querySelector('input[name="cliente_id"]') ? this.querySelector('input[name="cliente_id"]').value : '';
+			const current_cliente = this.children[0] ? this.children[0].innerText : '';
 
 			if ($(this).hasClass('selected')) {
 				$(this).removeClass('selected');
@@ -1197,11 +1199,12 @@ function fill_table(tipo) {
 				clientes_selected.value = current_cliente;
 			}
 
-			btn_disabled_value = (clientes_selected.value == '');
+			btn_disabled_value = (clientes_selected.value == '')
 	
 			table.button('btn_detalles_cliente:name').nodes().attr('disabled', btn_disabled_value);
 			table.button('btn_modificar_cliente:name').nodes().attr('disabled', btn_disabled_value);
 			table.button('btn_toggle_cliente:name').nodes().attr('disabled', btn_disabled_value);
+
 		});
 
 
