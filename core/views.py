@@ -75,7 +75,6 @@ def servicioFacturado(request):
 def login_view(request):
 
     if request.user.is_authenticated:
-        print("ola")
         return redirect('index')
     
     if request.method == "POST":
@@ -83,6 +82,8 @@ def login_view(request):
         password = request.POST["password"]
 	
         user = authenticate(request, username=username, password=password)
+
+        print(username, password, user)
 
         if user is not None:
             login(request, user)

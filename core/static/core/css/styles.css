@@ -20,10 +20,11 @@
 }
 
 .dataTables_paginate{
-    margin-top: 15px !important;
+    padding-top: 15px !important;
     display: flex;
     justify-content: end;
     align-items: center;
+    border-top: 1px solid #2d374850;
 
 }
 
@@ -40,7 +41,7 @@
 }
 
 .dataTables_paginate span .current{
-    background-color: #7e3af2
+    background-color: #e97415
 }
 
 
@@ -107,11 +108,36 @@ button:disabled  {
     margin-top: 20px;
 }
 
-.botones_registrar{
-    background-color: #ff8c26 !important; 
+
+/* Modificaciones del color de los botones */
+
+.btn_color_orange {
+	background-color: #ff8c26 !important;
 }
 
-.btn_detalles_general{
-    background-color: lightblue !important; 
+.btn_color_orange:hover{
+	background-color: #ff7800 !important;
+}
+
+.btn_edit_and_delete_color{
+	background-color: #ffffff !important;
+    border: 0px;
+}
+
+.btn_edit_and_delete_color:hover{
+	background-color: #aaaaaa !important;
+}
+
+.btn_detail_color {
+	background-color: #2e6dff !important;
+    border: 0px;
+}
+
+.btn_detail_color:hover{
+	background-color: #0042db !important;
+}
+
+.tablas tbody tr td{
+    padding: 10px 12px;
 
 }
