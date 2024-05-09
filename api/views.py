@@ -43,8 +43,7 @@ def usuarios(request, id=None):
         data = json.loads(request.body)
         data = serialize_data(data)
 
-        is_superuser = True if (data["rol"] == "Admin") else False
-        data.pop("rol", None)
+        rol = data.pop("rol", "Vendedor")
 
         if data['password'] != data['confirm_password']:
             return JsonResponse({"error": "PasswordsNotMatch."}, status=417)
@@ -52,8 +51,11 @@ def usuarios(request, id=None):
         data.pop("confirm_password", None)
 
         try:
-            if is_superuser:
+            if rol == "admin":
                 User.objects.create_superuser(**data)
+            elif rol == "gerenteVentas":
+                data['is_gerente_ventas'] = True
+                User.objects.create_user(**data)
             else:
                 User.objects.create_user(**data)
 

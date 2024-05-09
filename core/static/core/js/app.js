@@ -1713,7 +1713,7 @@ function fill_table(tipo) {
                             .then(response => response.json())
                             .then(venta => {
                                 const cliente = venta.cliente[0];
-								document.querySelector('#venta_detalles_nroVenta').value = venta.id;
+								document.querySelector('#venta_detalles_nroVenta').value = venta.nroVenta;
 								document.querySelector('#venta_detalles_fecha').value = venta.fecha;
 								document.querySelector('#venta_detalles_total').value = venta.total;
 								document.querySelector('#venta_detalles_cedula').value = cliente.cedula;

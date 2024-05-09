@@ -15,6 +15,7 @@ class User(AbstractUser):
 	middle_name = models.CharField(max_length=150, default="", blank=True)		
 	last_name_2 = models.CharField(max_length=150, default="", blank=True)
 	num_tlf = models.CharField(max_length=15, default="", blank=True)
+	is_gerente_ventas = models.BooleanField(default=False, blank=False, null=False)
 
 	def get_names(self):
 		return f"{self.first_name} {self.middle_name}".strip().replace("  ", " ")
@@ -29,7 +30,12 @@ class User(AbstractUser):
 		return f"{self.first_name} {self.last_name}".strip().replace("  ", " ")
 	
 	def get_rol(self):
-		return "Admin" if self.is_superuser else "Usuario"
+		if self.is_superuser:
+			return "Admin"
+		elif self.is_gerente_ventas:
+			return "Gerente de Ventas"
+		else:
+			return "Vendedor"
 	
 	def is_available_to_reset_password(self):
 		return True if (self.pregunta_seguridad_id and self.respuesta_seguridad) else False
@@ -309,6 +315,10 @@ class Venta(models.Model):
 
 	def serialize(self):
 		return VentaSerializer(self)
+	
+	def get_nro_venta(self):
+		padded_id = str(self.id).zfill(4)
+		return f'NIT123456789-{padded_id}'
 	
 	def get_detalles_venta(self):
 		return DetalleVenta.objects.filter(venta=self)
