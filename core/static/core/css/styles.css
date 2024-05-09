@@ -30,10 +30,10 @@
 
 
 .dataTables_paginate .paginate_button {
-    padding: 0.4em 0.8em !important;
-    margin: 0em 0.1em;
+    padding: 0.3em 0.7em !important;
     color: #e5e6ea;
-    border-radius: 2px;
+    margin: 0em 0.2em;
+    border-radius: 6px;
 }
 
 .paginate_button:hover{
