@@ -11,7 +11,7 @@ from .serializers import *
 status_choices = (
         ('Activo', 'Activo'),
         ('Inactivo', 'Inactivo'),
-        ('Suspendido', 'Suspendido'),
+        ('Deshabilitado', 'Deshabilitado'),
 )
 
 class User(AbstractUser):

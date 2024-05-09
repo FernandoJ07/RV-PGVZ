@@ -1209,7 +1209,7 @@ function fill_table(tipo) {
 									</span>
 								`
 								break
-							case "Suspendido":
+							case "Deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
 									${row.status}
@@ -1388,7 +1388,7 @@ function fill_table(tipo) {
 									</span>
 								`
 								break
-							case "Suspendido":
+							case "Deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
 									${row.status}
@@ -1566,7 +1566,7 @@ function fill_table(tipo) {
 									</span>
 								`
 								break
-							case "Suspendido":
+							case "Deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
 									${row.status}
