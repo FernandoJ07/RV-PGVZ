@@ -1314,12 +1314,14 @@ function fill_table(tipo) {
 				 }
 			},
 			'columns': [
+				{"data": "id"},
                 {"data": "shortname"},
                 {"data": "cedula"},
                 {"data": "num_tlf"},
                 {"data": "email"},
             ],
 			"columnDefs": [
+				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 			]
@@ -1327,7 +1329,7 @@ function fill_table(tipo) {
 
 		$('#tabla_usuarios tbody').off('click', 'tr').on('click', 'tr', function () {
             const usuarios_selected = document.querySelector('#usuarios_selected_id');
-            const current_usuario = this.querySelector('input[name="usuario_id"]') ? this.querySelector('input[name="usuario_id"]').value : '';
+            const current_usuario = this.children[0] ? this.children[0].innerText : '';
 
 
             if ($(this).hasClass('selected')) {
@@ -1376,7 +1378,7 @@ function fill_table(tipo) {
                                 document.querySelector('#proveedor_detalles_num_tlf').value = proveedor.num_tlf;
                                 document.querySelector('#proveedor_detalles_email').value = proveedor.email;
 								document.querySelector('#proveedor_detalles_fecha_nacimiento').value = proveedor.fecha_nacimiento;
-								document.querySelector('#proveedor_detalles_edad').value = proveedor.get_age;
+								document.querySelector('#proveedor_detalles_edad').value = proveedor.age;
 								document.querySelector('#proveedor_detalles_direccion').value = proveedor.direccion;
                             })
                             .catch(function(error) {
@@ -1460,6 +1462,7 @@ function fill_table(tipo) {
                 {"data": "email"},
             ],
 			"columnDefs": [
+				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 			]
@@ -1467,7 +1470,7 @@ function fill_table(tipo) {
 
 		$('#tabla_proveedores tbody').off('click', 'tr').on('click', 'tr', function () {
             const proveedores_selected = document.querySelector('#proveedores_selected_id');
-            const current_proveedor = this.querySelector('input[name="proveedor_id"]') ? this.querySelector('input[name="proveedor_id"]').value : '';
+            const current_proveedor = this.children[0] ? this.children[0].innerText : '';
 
 
             if ($(this).hasClass('selected')) {
@@ -1658,6 +1661,7 @@ function fill_table(tipo) {
                 {"data": "precio"},
             ],
 			"columnDefs": [
+				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 			],
@@ -1665,7 +1669,7 @@ function fill_table(tipo) {
 
 		$('#tabla_productos tbody').off('click', 'tr').on('click', 'tr', function () {
 			const productos_selected = document.querySelector('#productos_selected_id');
-			const current_producto = this.querySelector('input[name="producto_id"]') ? this.querySelector('input[name="producto_id"]').value : '';
+			const current_producto = this.children[0] ? this.children[0].innerText : '';
 
 			if ($(this).hasClass('selected')) {
 				$(this).removeClass('selected');
@@ -1773,13 +1777,14 @@ function fill_table(tipo) {
 				 }
 			},
 			'columns': [
+					{"data": "id"},
 					{"data": "fecha"},
 					{"data": "cliente[0].cedula"},
 					{"data": "cliente[0].shortname"},
 					{"data": "total"}
 				],
 				"columnDefs": [
-	
+					{className: 'hidden', searchable: false, targets: [ 0 ]},
 					{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 					{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 					
@@ -1789,7 +1794,7 @@ function fill_table(tipo) {
 
 		$('#tabla_ventas tbody').off('click', 'tr').on('click', 'tr', function () {
             const venta_selected = document.querySelector('#venta_selected_id');
-            const current_venta = this.querySelector('input[name="venta_id"]') ? this.querySelector('input[name="venta_id"]').value : '';
+            const current_venta = this.children[0] ? this.children[0].innerText : '';
 
 
             if ($(this).hasClass('selected')) {
@@ -1963,11 +1968,13 @@ function fill_table(tipo) {
 				 }
 			},
 			'columns': [
+				{"data": "id"},
                 {"data": "codigo"},
                 {"data": "nombre"},
                 {"data": "precio"},
             ],
 			"columnDefs": [
+				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 			]
@@ -1975,7 +1982,7 @@ function fill_table(tipo) {
 
 		$('#tabla_servicios tbody').off('click', 'tr').on('click', 'tr', function () {
             const servicios_selected = document.querySelector('#servicios_selected_id');
-            const current_servicio = this.querySelector('input[name="servicio_id"]') ? this.querySelector('input[name="servicio_id"]').value : '';
+            const current_servicio = this.children[0] ? this.children[0].innerText : '';
 
 
             if ($(this).hasClass('selected')) {
@@ -2101,7 +2108,7 @@ function fill_table(tipo) {
 
 		$('#tabla_servicios_facturados tbody').off('click', 'tr').on('click', 'tr', function () {
             const servicios_facturados_selected = document.querySelector('#servicios_facturados_selected_id');
-            const current_servicio_facturado = this.querySelector('input[name="servicios_facturados_id"]') ? this.querySelector('input[name="servicios_facturados_id"]').value : '';
+            const current_servicio_facturado = this.children[0] ? this.children[0].innerText : '';
 
 
             if ($(this).hasClass('selected')) {
