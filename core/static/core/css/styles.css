@@ -130,6 +130,7 @@ button:disabled  {
 .btn_detail_color {
 	background-color: #2e6dff !important;
     border: 0px;
+    color: white;
 }
 
 .btn_detail_color:hover{

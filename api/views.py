@@ -43,8 +43,7 @@ def usuarios(request, id=None):
         data = json.loads(request.body)
         data = serialize_data(data)
 
-        rol = data.pop("rol", "Vendedor")
-
+        rol = data.pop("rol")
         if data['password'] != data['confirm_password']:
             return JsonResponse({"error": "PasswordsNotMatch."}, status=417)
         
@@ -52,11 +51,15 @@ def usuarios(request, id=None):
 
         try:
             if rol == "admin":
-                User.objects.create_superuser(**data)
+                data['is_gerente_ventas'] = False
+                user = User.objects.create_superuser(**data)
+
             elif rol == "gerenteVentas":
                 data['is_gerente_ventas'] = True
                 User.objects.create_user(**data)
+                
             else:
+                data['is_gerente_ventas'] = False
                 User.objects.create_user(**data)
 
             return JsonResponse({"message": "Usuario agregado exitosamente."}, status=201)
@@ -71,8 +74,7 @@ def usuarios(request, id=None):
         data = json.loads(request.body)
         data = serialize_data(data)
 
-        data['is_superuser'] = True if (data["rol"] == "Admin") else False
-        data.pop("rol", None)
+        rol = data.pop("rol", None)
 
         if id != None:
             if not User.objects.filter(id=id).exists():
@@ -80,8 +82,31 @@ def usuarios(request, id=None):
 
             try:
                 data.pop("cedula", None)
-                User.objects.filter(id=id).update(**data)
                 
+                if rol == "Admin":
+                    data['is_gerente_ventas'] = False
+                    User.objects.filter(id=id).update(**data)
+                    user = User.objects.get(id=id)
+                    user.is_superuser = True
+                    user.is_staff = True
+                    user.save()
+
+                elif rol == "GerenteVentas":
+                    data['is_gerente_ventas'] = True
+                    User.objects.filter(id=id).update(**data)
+                    user = User.objects.get(id=id)
+                    user.is_superuser = False
+                    user.is_staff = False
+                    user.save()
+                else:
+                    data['is_gerente_ventas'] = False
+                    User.objects.filter(id=id).update(**data)
+                    user = User.objects.get(id=id)
+                    user.is_superuser = False
+                    user.is_staff = False
+                    user.save()
+
+                    
                 return JsonResponse({"message": "Usuario modificado."}, status=201)
             except IntegrityError as e:
                 if "UNIQUE constraint failed: core_user.cedula" in e.args:

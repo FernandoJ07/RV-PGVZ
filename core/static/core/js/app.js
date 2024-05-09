@@ -1097,7 +1097,9 @@ function fill_table(tipo) {
 								document.querySelector('#cliente_detalles_nombres').value = cliente.fullname;
 								document.querySelector('#cliente_detalles_num_tlf').value = cliente.num_tlf;
 								document.querySelector('#cliente_detalles_email').value = cliente.email;
+								document.querySelector('#cliente_detalles_status').value = cliente.status;
 								document.querySelector('#cliente_detalles_direccion').value = cliente.direccion;
+
 							})
 							.catch(function(error) {
 								bootstrapAlert('Se ha producido un fallo buscando la información del cliente.', 'error');
@@ -1127,10 +1129,12 @@ function fill_table(tipo) {
 							fetch('/api/clientes/' + clientes_selected_id)
 							.then(response => response.json())
 							.then(cliente => {
+								console.log(cliente.status)
 								document.querySelector('#cliente_modificar_cedula').value = cliente.cedula;
 								document.querySelector('#cliente_modificar_nombres').value = cliente.fullname;
 								document.querySelector('#cliente_modificar_num_tlf').value = cliente.num_tlf;
 								document.querySelector('#cliente_modificar_email').value = cliente.email;
+								document.querySelector('#cliente_modificar_status').value = cliente.status;
 								document.querySelector('#cliente_modificar_direccion').value = cliente.direccion;
 							})
 							.catch(function(error) {
@@ -1177,11 +1181,46 @@ function fill_table(tipo) {
                 {"data": "cedula"},
                 {"data": "num_tlf"},
                 {"data": "email"},
+                {"data": "status"},
             ],
 			"columnDefs": [
 				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 1},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+				{
+					orderable: false,
+					width: 110,
+					render: function (data, type, row) {
+						let status = ``
+
+						switch (row.status){
+							case "Activo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+									${row.status}
+									</span>
+								`
+								break
+
+							case "Inactivo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+									${row.status}
+									</span>
+								`
+								break
+							case "Suspendido":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+									${row.status}
+									</span>
+								`
+								break
+						}
+						return status
+					},
+					'targets': [-1]
+				},
 			]
             
         });
@@ -1240,7 +1279,7 @@ function fill_table(tipo) {
                                 document.querySelector('#usuario_detalles_num_tlf').value = usuario.num_tlf;
                                 document.querySelector('#usuario_detalles_email').value = usuario.email;
 								document.querySelector('#usuario_detalles_rol').value = usuario.rol;
-
+								document.querySelector('#usuario_detalles_status').value = usuario.status;
                             })
                             .catch(function(error) {
                                 bootstrapAlert('Ha ocurrido un error al buscar el usuario', 'error');
@@ -1274,7 +1313,9 @@ function fill_table(tipo) {
                                 document.querySelector('#usuario_modificar_nombres').value = usuario.fullname;
                                 document.querySelector('#usuario_modificar_num_tlf').value = usuario.num_tlf;
                                 document.querySelector('#usuario_modificar_email').value = usuario.email;
-								document.querySelector('#usuario_modificar_rol').value = usuario.rol;
+								document.querySelector('#usuario_modificar_rol').value = (usuario.rol === "Gerente de Ventas") ? "GerenteVentas" : usuario.rol;
+								document.querySelector('#usuario_modificar_status').value = usuario.status;
+
                             })
                             .catch(function(error) {
                                 bootstrapAlert('Se ha producido un fallo buscando la información del usuario.', 'error');
@@ -1319,11 +1360,46 @@ function fill_table(tipo) {
                 {"data": "cedula"},
                 {"data": "num_tlf"},
                 {"data": "email"},
+                {"data": "status"},
             ],
 			"columnDefs": [
 				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+				{
+					orderable: false,
+					width: 110,
+					render: function (data, type, row) {
+						let status = ``
+
+						switch (row.status){
+							case "Activo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+									${row.status}
+									</span>
+								`
+								break
+
+							case "Inactivo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+									${row.status}
+									</span>
+								`
+								break
+							case "Suspendido":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+									${row.status}
+									</span>
+								`
+								break
+						}
+						return status
+					},
+					'targets': [-1]
+				},
 			]
 		});
 
@@ -1379,6 +1455,7 @@ function fill_table(tipo) {
                                 document.querySelector('#proveedor_detalles_email').value = proveedor.email;
 								document.querySelector('#proveedor_detalles_fecha_nacimiento').value = proveedor.fecha_nacimiento;
 								document.querySelector('#proveedor_detalles_edad').value = proveedor.age;
+								document.querySelector('#proveedor_detalles_status').value = proveedor.status;
 								document.querySelector('#proveedor_detalles_direccion').value = proveedor.direccion;
                             })
                             .catch(function(error) {
@@ -1414,6 +1491,7 @@ function fill_table(tipo) {
                                 document.querySelector('#proveedor_modificar_num_tlf').value = proveedor.num_tlf;
                                 document.querySelector('#proveedor_modificar_email').value = proveedor.email;
 								document.querySelector('#proveedor_modificar_fecha_nacimiento').value = proveedor.fecha_nacimiento;
+								document.querySelector('#proveedor_modificar_status').value = proveedor.status;
 								document.querySelector('#proveedor_modificar_direccion').value = proveedor.direccion;
                             })
                             .catch(function(error) {
@@ -1460,11 +1538,46 @@ function fill_table(tipo) {
                 {"data": "rif"},
                 {"data": "num_tlf"},
                 {"data": "email"},
+                {"data": "status"},
             ],
 			"columnDefs": [
 				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+				{
+					orderable: false,
+					width: 110,
+					render: function (data, type, row) {
+						let status = ``
+
+						switch (row.status){
+							case "Activo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+									${row.status}
+									</span>
+								`
+								break
+
+							case "Inactivo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+									${row.status}
+									</span>
+								`
+								break
+							case "Suspendido":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+									${row.status}
+									</span>
+								`
+								break
+						}
+						return status
+					},
+					'targets': [-1]
+				},
 			]
 		});
 

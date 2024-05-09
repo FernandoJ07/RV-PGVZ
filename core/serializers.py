@@ -9,6 +9,7 @@ def user_serialize(self):
 	dict_model["fullname"] = self.get_full_name()
 	dict_model["shortname"] = self.get_short_name()
 	dict_model["rol"] = self.get_rol()
+	dict_model["status"] = self.get_status()
 	dict_model.pop("password", None)
 	return dict_model
 
@@ -19,6 +20,7 @@ def persona_serialize(self):
 	dict_model["fullname"] = self.get_full_name()
 	dict_model["shortname"] = self.get_short_name()
 	dict_model["age"] = self.get_age()
+	dict_model["status"] = self.get_status()
 	return dict_model
 
 def producto_serialize(self):

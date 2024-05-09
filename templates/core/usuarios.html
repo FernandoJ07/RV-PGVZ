@@ -27,6 +27,7 @@
                         <th class="px-4 py-3">Cédula</th>
                         <th class="px-4 py-3">Teléfono</th>
                         <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Status</th>
                     </tr>
                 </thead>
                 <tbody class="tbody_table bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"></tbody>
@@ -74,6 +75,11 @@
                         <span class="text-gray-700 dark:text-gray-400">Rol</span>
                         <input id="usuario_detalles_rol" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
                     </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Status</span>
+                        <input id="usuario_detalles_status" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
                 </div>
             </div>
         </div>
@@ -117,6 +123,15 @@
                             <input id="usuario_agregar_email" name="email" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
+                        <label class="block mt-4 text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Rol</span>
+                            <select id="usuario_agregar_rol" name="rol" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                <option value="Admin">Admin</option>
+                                <option value="GerenteVentas">Gerente de Ventas</option>
+                                <option value="Vendedor">Vendedor</option>
+                            </select>
+                        </label>
+
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
                             <input type="password" id="usuario_registrar_password" name="password" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
@@ -127,15 +142,6 @@
                             <input type="password" id="usuario_registrar_confirm_password" name="confirm_password" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
-                        <label class="block mt-4 text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Rol</span>
-                            <select id="usuario_agregar_rol" name="rol" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                <option value="admin">Admin</option>
-                                <option value="gerenteVentas">Gerente de Ventas</option>
-                                <option value="vendedor">Vendedors</option>
-                            </select>
-                        </label>
-    
                         <div class="py-2 mt-1">
                             <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 Registrar
@@ -230,7 +236,17 @@
                             <span class="text-gray-700 dark:text-gray-400">Rol</span>
                             <select id="usuario_modificar_rol" name="rol" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="Admin">Admin</option>
-                                <option value="Usuario">Usuario</option>
+                                <option value="GerenteVentas">Gerente de Ventas</option>
+                                <option value="Vendedor">Vendedor</option>
+                            </select>
+                        </label>
+
+                        <label class="block mt-4 text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">Status</span>
+                            <select id="usuario_modificar_status" name="status" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="Suspendido">Suspendido</option>
                             </select>
                         </label>
     

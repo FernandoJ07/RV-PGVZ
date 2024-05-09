@@ -8,7 +8,11 @@ from django.db import transaction
 
 
 from .serializers import *
-
+status_choices = (
+        ('Activo', 'Activo'),
+        ('Inactivo', 'Inactivo'),
+        ('Suspendido', 'Suspendido'),
+)
 
 class User(AbstractUser):
 	cedula = models.CharField(max_length=10, unique=True, default="")		
@@ -16,6 +20,7 @@ class User(AbstractUser):
 	last_name_2 = models.CharField(max_length=150, default="", blank=True)
 	num_tlf = models.CharField(max_length=15, default="", blank=True)
 	is_gerente_ventas = models.BooleanField(default=False, blank=False, null=False)
+	status = models.CharField(max_length=20, choices=status_choices, default='activo')
 
 	def get_names(self):
 		return f"{self.first_name} {self.middle_name}".strip().replace("  ", " ")
@@ -36,46 +41,54 @@ class User(AbstractUser):
 			return "Gerente de Ventas"
 		else:
 			return "Vendedor"
+		
+	def get_status(self):
+		return dict(status_choices).get(self.status, 'Desconocido')
 	
 	def is_available_to_reset_password(self):
 		return True if (self.pregunta_seguridad_id and self.respuesta_seguridad) else False
-
+	
 	def serialize(self):
 		return UserSerializer(self)
 
 class Persona(models.Model):
-    first_name = models.CharField(max_length=150, blank=True)
-    middle_name = models.CharField(max_length=150, blank=True, default="")
-    last_name = models.CharField(max_length=150, blank=True)
-    last_name_2 = models.CharField(max_length=150, blank=True, default="")
-    fecha_nacimiento = models.DateField(blank=True, null=True)
-    num_tlf = models.CharField(max_length=15, default="", blank=True)
-    email = models.CharField(max_length=150)
-    direccion = models.TextField(blank=True)
+	first_name = models.CharField(max_length=150, blank=True)
+	middle_name = models.CharField(max_length=150, blank=True, default="")
+	last_name = models.CharField(max_length=150, blank=True)
+	last_name_2 = models.CharField(max_length=150, blank=True, default="")
+	fecha_nacimiento = models.DateField(blank=True, null=True)
+	num_tlf = models.CharField(max_length=15, default="", blank=True)
+	email = models.CharField(max_length=150)
+	direccion = models.TextField(blank=True)
+	status = models.CharField(max_length=20, choices=status_choices, default='activo')
 
-    class Meta:
-        abstract = True
+	class Meta:
+		abstract = True
 
-    def get_names(self):
-        return f"{self.first_name} {self.middle_name}".strip().replace("  ", " ")
+	def get_names(self):
+		return f"{self.first_name} {self.middle_name}".strip().replace("  ", " ")
 
-    def get_last_names(self):
-        return f"{self.last_name} {self.last_name_2}".strip().replace("  ", " ")
+	def get_last_names(self):
+		return f"{self.last_name} {self.last_name_2}".strip().replace("  ", " ")
 
-    def get_full_name(self):
-        return f"{self.first_name} {self.middle_name} {self.last_name} {self.last_name_2}".strip().replace("  ", " ")
+	def get_full_name(self):
+		return f"{self.first_name} {self.middle_name} {self.last_name} {self.last_name_2}".strip().replace("  ", " ")
 
-    def get_short_name(self):
-        return f"{self.first_name} {self.last_name}".strip().replace("  ", " ")
+	def get_short_name(self):
+		return f"{self.first_name} {self.last_name}".strip().replace("  ", " ")
 
-    def get_age(self):
-        return (date.today().year - self.fecha_nacimiento.year - ((date.today().month, date.today().day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))) if self.fecha_nacimiento else None
+	def get_age(self):
+		return (date.today().year - self.fecha_nacimiento.year - ((date.today().month, date.today().day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))) if self.fecha_nacimiento else None
 
-    def __str__(self):
-        return self.get_short_name()
+	def get_status(self):
+		return dict(status_choices).get(self.status, 'Desconocido')
+	
+	def __str__(self):
+		return self.get_short_name()
 
 class Cliente(Persona):
     cedula = models.CharField(max_length=10, unique=True)
+	
 
     def serialize(self):
         return PersonaSerializer(self)
