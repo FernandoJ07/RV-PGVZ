@@ -43,7 +43,7 @@ class User(AbstractUser):
 			return "Vendedor"
 		
 	def get_status(self):
-		return dict(status_choices).get(self.status, 'Desconocido')
+		return dict(status_choices).get(self.status, 'activo')
 	
 	def is_available_to_reset_password(self):
 		return True if (self.pregunta_seguridad_id and self.respuesta_seguridad) else False
@@ -81,7 +81,7 @@ class Persona(models.Model):
 		return (date.today().year - self.fecha_nacimiento.year - ((date.today().month, date.today().day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))) if self.fecha_nacimiento else None
 
 	def get_status(self):
-		return dict(status_choices).get(self.status, 'Desconocido')
+		return dict(status_choices).get(self.status, 'activo')
 	
 	def __str__(self):
 		return self.get_short_name()

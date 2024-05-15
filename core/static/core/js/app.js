@@ -410,11 +410,31 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	
 	if(window.location.pathname.split('/')[1] === 'productos') {
+
+
 		// Modal Agregar producto
 		$('#btn_producto_modal_agregar').on('click', function() {
 			modal('#agregarProductoModal', 'show');
 
 		});
+
+		const proveedor_options = document.getElementById('producto_agregar_proveedor');
+
+			fetch('/api/proveedores')
+			.then(response => response.json())
+			.then(data => {
+				data.forEach(proveedor => {
+					console.log(proveedor)
+					var opt = document.createElement('option');
+					opt.value = proveedor.id;
+					opt.innerHTML = proveedor.shortname;
+					proveedor_options.appendChild(opt);
+				});
+
+			})
+		.catch(function(error) {console.log('Error buscar proveeedores: ' + error);});
+		
+		
 
 		$('#producto_agregar_tipo').on('change', function () {
 			const container_producto_agregar_caucho = document.querySelector('#container_producto_agregar_caucho');
@@ -1165,7 +1185,7 @@ function fill_table(tipo) {
             'destroy': true,
             'lengthChange': false,
             'deferRender': true,
-            'language': { 'url': '/media/datatables-languages/es-ES_custom.json' },
+            'language': { 'url': '/media/datatables-languages/es-ES_default.json' },
             'ajax': {
                 'url': '/api/clientes',
                 'type': 'GET',
@@ -1194,14 +1214,6 @@ function fill_table(tipo) {
 						let status = ``
 
 						switch (row.status){
-							case "Activo":
-								status = `
-									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-									${row.status}
-									</span>
-								`
-								break
-
 							case "Inactivo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
@@ -1212,6 +1224,14 @@ function fill_table(tipo) {
 							case "Deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+									${row.status}
+									</span>
+								`
+								break
+							default:
+								case "Activo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
 									${row.status}
 									</span>
 								`
@@ -1360,6 +1380,7 @@ function fill_table(tipo) {
                 {"data": "cedula"},
                 {"data": "num_tlf"},
                 {"data": "email"},
+                {"data": "rol"},
                 {"data": "status"},
             ],
 			"columnDefs": [
@@ -1373,13 +1394,6 @@ function fill_table(tipo) {
 						let status = ``
 
 						switch (row.status){
-							case "Activo":
-								status = `
-									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-									${row.status}
-									</span>
-								`
-								break
 
 							case "Inactivo":
 								status = `
@@ -1395,6 +1409,14 @@ function fill_table(tipo) {
 									</span>
 								`
 								break
+							default:
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+									${row.status}
+									</span>
+								`
+								break
+
 						}
 						return status
 					},
@@ -1551,14 +1573,6 @@ function fill_table(tipo) {
 						let status = ``
 
 						switch (row.status){
-							case "Activo":
-								status = `
-									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-									${row.status}
-									</span>
-								`
-								break
-
 							case "Inactivo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
@@ -1569,6 +1583,14 @@ function fill_table(tipo) {
 							case "Deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+									${row.status}
+									</span>
+								`
+								break
+							default:
+								case "Activo":
+								status = `
+									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
 									${row.status}
 									</span>
 								`
@@ -1749,7 +1771,8 @@ function fill_table(tipo) {
 
 							modal('#cantidadProductoModal', 'show');
 						}
-				}
+				},
+				
 			],
 			'select': true,
             'bInfo': false,
@@ -1777,6 +1800,23 @@ function fill_table(tipo) {
 				{className: 'hidden', searchable: false, targets: [ 0 ]},
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+				{
+					// El índice de la columna que quieres formatear (empezando desde 0)
+					"targets": [2], 
+					"render": function ( data, type, row ) {
+						console.log(row)
+						// Formatea el número usando la función Number.toLocaleString()
+						return Number(row.cantidad).toLocaleString('es-ES');
+					}
+				},
+				{
+					// El índice de la columna que quieres formatear (empezando desde 0)
+					"targets": [3], 
+					"render": function ( data, type, row ) {
+						// Formatea el número usando la función Number.toLocaleString()
+						return Number(row.precio).toLocaleString('es-ES');
+					}
+				},
 			],
         });
 

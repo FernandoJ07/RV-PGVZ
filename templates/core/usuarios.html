@@ -27,6 +27,7 @@
                         <th class="px-4 py-3">Cédula</th>
                         <th class="px-4 py-3">Teléfono</th>
                         <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Rol</th>
                         <th class="px-4 py-3">Status</th>
                     </tr>
                 </thead>
@@ -100,7 +101,7 @@
 
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Nombre de Usuario</span>
-                            <input id="usuario_agregar_username" name="username" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
+                            <input id="usuario_agregar_username" name="username" autocomplete="off" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
                         <label class="block text-sm">
@@ -123,7 +124,7 @@
                             <input id="usuario_agregar_email" name="email" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
-                        <label class="block mt-4 text-sm">
+                        <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Rol</span>
                             <select id="usuario_agregar_rol" name="rol" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="Admin">Admin</option>
@@ -134,7 +135,7 @@
 
                         <label class="block text-sm">
                             <span class="text-gray-700 dark:text-gray-400">Contraseña</span>
-                            <input type="password" id="usuario_registrar_password" name="password" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
+                            <input type="password" id="usuario_registrar_password" name="password" autocomplete="off" class="block w-full mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                         </label>
 
                         <label class="block text-sm">
@@ -143,7 +144,7 @@
                         </label>
 
                         <div class="py-2 mt-1">
-                            <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button class="btn_color_orange px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 Registrar
                             </button>
                         </div>
@@ -184,7 +185,7 @@
                             <span class="text-gray-700 dark:text-gray-400">Nombres de Usuario</span>
     
                             <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                                <input id="usuario_modificar_username" name="username" class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
+                                <input id="usuario_modificar_username" name="username" autocomplete="off" class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input">
                                 <div class="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
@@ -251,7 +252,7 @@
                         </label>
     
                         <div class="py-2 mt-1">
-                            <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button class="btn_color_orange px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 Guardar
                             </button>
                         </div>

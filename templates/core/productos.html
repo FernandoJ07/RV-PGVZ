@@ -152,9 +152,19 @@
                             <select id="producto_agregar_tipo" name="producto_type" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="" selected="">Seleccionar clasificación de producto</option>
                                 <option value="1">Producto general</option>
-                                <option value="2">Caucho</option>
-                                <option value="3">Rin</option>
+                                <!-- <option value="2">Caucho</option>
+                                <option value="3">Rin</option> -->
                             </select>
+                        </label>
+
+                        <label class="block mt-4 text-sm">
+                            <span class="text-gray-700 dark:text-gray-400">
+                                Clasificación de producto
+                            </span>
+                            <select id="producto_agregar_proveedor" name="proveedor" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                                <option value="" selected="">Seleccionar Proveedor</option>
+                            </select>
+                            
                         </label>
 
                         <div id="container_producto_agregar_caucho" style="display: none;">
@@ -207,7 +217,7 @@
                         </div>
     
                         <div class="py-2 mt-1">
-                            <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button class="btn_color_orange px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 Registrar
                             </button>
                         </div>
@@ -360,7 +370,7 @@
                         </div>
     
                         <div class="py-2 mt-1">
-                            <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            <button class="btn_color_orange px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                 Guardar
                             </button>
                         </div>
@@ -387,11 +397,11 @@
                     </label>
 
                     <div class="py-2 mt-1">
-                        <button id="producto_cantidad_sumar" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        <button id="producto_cantidad_sumar" class="btn_color_orange px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                             Sumar cantidad
                         </button>
 
-                        <button id="producto_cantidad_restar" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        <button id="producto_cantidad_restar" class="btn_color_orange px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                             Restar cantidad
                         </button>
                     </div>
