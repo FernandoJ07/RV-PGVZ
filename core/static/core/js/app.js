@@ -1149,7 +1149,6 @@ function fill_table(tipo) {
 							fetch('/api/clientes/' + clientes_selected_id)
 							.then(response => response.json())
 							.then(cliente => {
-								console.log(cliente.status)
 								document.querySelector('#cliente_modificar_cedula').value = cliente.cedula;
 								document.querySelector('#cliente_modificar_nombres').value = cliente.fullname;
 								document.querySelector('#cliente_modificar_num_tlf').value = cliente.num_tlf;
@@ -1214,14 +1213,14 @@ function fill_table(tipo) {
 						let status = ``
 
 						switch (row.status){
-							case "Inactivo":
+							case "inactivo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
 									${row.status}
 									</span>
 								`
 								break
-							case "Deshabilitado":
+							case "deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
 									${row.status}
@@ -1229,7 +1228,6 @@ function fill_table(tipo) {
 								`
 								break
 							default:
-								case "Activo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
 									${row.status}
@@ -1395,14 +1393,14 @@ function fill_table(tipo) {
 
 						switch (row.status){
 
-							case "Inactivo":
+							case "inactivo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
 									${row.status}
 									</span>
 								`
 								break
-							case "Deshabilitado":
+							case "deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
 									${row.status}
@@ -1573,14 +1571,14 @@ function fill_table(tipo) {
 						let status = ``
 
 						switch (row.status){
-							case "Inactivo":
+							case "inactivo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
 									${row.status}
 									</span>
 								`
 								break
-							case "Deshabilitado":
+							case "deshabilitado":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
 									${row.status}
@@ -1588,7 +1586,6 @@ function fill_table(tipo) {
 								`
 								break
 							default:
-								case "Activo":
 								status = `
 									<span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
 									${row.status}

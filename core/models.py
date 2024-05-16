@@ -8,11 +8,7 @@ from django.db import transaction
 
 
 from .serializers import *
-status_choices = (
-        ('Activo', 'Activo'),
-        ('Inactivo', 'Inactivo'),
-        ('Deshabilitado', 'Deshabilitado'),
-)
+
 
 class User(AbstractUser):
 	cedula = models.CharField(max_length=10, unique=True, default="")		
@@ -20,7 +16,7 @@ class User(AbstractUser):
 	last_name_2 = models.CharField(max_length=150, default="", blank=True)
 	num_tlf = models.CharField(max_length=15, default="", blank=True)
 	is_gerente_ventas = models.BooleanField(default=False, blank=False, null=False)
-	status = models.CharField(max_length=20, choices=status_choices, default='activo')
+	status = models.CharField(max_length=20, default='activo')
 
 	def get_names(self):
 		return f"{self.first_name} {self.middle_name}".strip().replace("  ", " ")
@@ -41,9 +37,6 @@ class User(AbstractUser):
 			return "Gerente de Ventas"
 		else:
 			return "Vendedor"
-		
-	def get_status(self):
-		return dict(status_choices).get(self.status, 'activo')
 	
 	def is_available_to_reset_password(self):
 		return True if (self.pregunta_seguridad_id and self.respuesta_seguridad) else False
@@ -60,7 +53,7 @@ class Persona(models.Model):
 	num_tlf = models.CharField(max_length=15, default="", blank=True)
 	email = models.CharField(max_length=150)
 	direccion = models.TextField(blank=True)
-	status = models.CharField(max_length=20, choices=status_choices, default='activo')
+	status = models.CharField(max_length=20, default='activo')
 
 	class Meta:
 		abstract = True
@@ -79,9 +72,6 @@ class Persona(models.Model):
 
 	def get_age(self):
 		return (date.today().year - self.fecha_nacimiento.year - ((date.today().month, date.today().day) < (self.fecha_nacimiento.month, self.fecha_nacimiento.day))) if self.fecha_nacimiento else None
-
-	def get_status(self):
-		return dict(status_choices).get(self.status, 'activo')
 	
 	def __str__(self):
 		return self.get_short_name()
