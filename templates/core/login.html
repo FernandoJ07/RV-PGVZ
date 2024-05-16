@@ -8,80 +8,43 @@
     <link rel="stylesheet" href="{% static 'core/css/tailwind.output.css' %}" />
     <script src="{% static 'core/js/init-alpine.js' %}"></script>
     <script src="{% static 'core/js/alpine.js' %}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-[#121317] flex justify-center items-center h-screen">
   
-  <div class="h-screen w-full flex items-center justify-center px-6">
-    <div style="width: 25%;">
-      <h1 class="text-center text-2xl font-semibold text-gray-700 dark:text-gray-200">Iniciar Sesión</h1>
-      {% if message %}
+    <div class="bg-[#1a1c23] w-full max-w-sm p-4 bg-black-800 border border-gray-800 rounded-lg shadow-xl sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <form class="space-y-6" action="{% url 'login' %}" method="POST">
+          {% csrf_token %}  
+          <div class="flex justify-between text-center">
+            <div><h5 class="flex justify-center font-medium text-gray-100 dark:text-white py-6">RV-PGVZ</h5></div>
+            <div><img src="{% static 'core\img\logorvpgvz.png' %}"alt="" class="w-20 y-20"></div>
+            {% if message %}
           <p class="text-red-700 text-center">{{message}}</p> 
-      {% endif %}
-      <form action="{% url 'login' %}" method="POST" class="bg-white shadow-xl rounded" style="padding: 50px 40px;">
-        {% csrf_token %}  
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-            Usuario
-          </label>
-          <input name="username" id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text">
-        </div>
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-            Contraseña
-          </label>
-          <input name="password" id="password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password">
-        </div>
-        <div class="flex items-center justify-between">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-            Login
-          </button>
-          <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-            Olvidó su contraseña?
-          </a>
-        </div>
-      </form>
-    </div>
-  </div>
-    
-  
-
-  <!-- <section class="vh-100 gradient-custom">
-        <div class="container py-5 h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-              <div class="text-white" style="border-radius: 1rem; background-color: #332D2D;">
-                <div class="card-body p-5 text-center">
-                  {% if message %}
-                    <p class="text-danger">{{message}}</p> 
-                  {% endif %}
-
-                  <form action="{% url 'login' %}" method="POST">
-                    {% csrf_token %}  
-                    <div class="mb-md-5 mt-md-4 pb-2">
-                      <img src="{% static 'core/img/logo.png'%}" alt="logo del a empresa" width="250px" class="pb-3">
-                      <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                      <p class="text-white-50 mb-5">Ingrese su usuario y contraseña</p>
-        
-                      <div class="mb-4">
-                        <label class="form-label" for="username">Usuario</label>
-                        <input name="username" type="text" id="username" class="form-control " />
-                      </div>
-        
-                      <div class= mb-4">
-                        <label class="form-label" for="password">Contraseña</label>
-                        <input name="password" type="password" id="password" class="form-control " />
-                      </div>
-        
-                      <button class="btn btn-outline-light btn-lg px-5 mt-5" type="submit">Login</button>
-                    </div>
-                  </form>
-      
-                </div>
-              </div>
-            </div>
+            {% endif %}
           </div>
-        </div>
-      </section> -->
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-100 dark:text-white">Usuario</label>
+                <input name="username" id="username" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Username" required />
+            </div>
+            <div>
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-100 dark:text-white">Contraseña</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+            </div>
+            <div class="flex items-start">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                    <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-orange-500 rounded bg-orange-500 focus:ring-3 focus:ring-orange-300 dark:bg-orange-700 dark:border-orange-600 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
+                </div>
+                <label for="remember" class="ms-2 text-sm font-medium text-gray-100 dark:text-gray-300">Recuérdame</label>
+            </div>            
+                <a href="#" class="ms-auto text-sm text-orange-600 hover:underline dark:text-orange-700">¿Olvidaste tu contraseña?</a>
+            </div>
+            <button type="submit" class="w-full text-white bg-orange-500 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Iniciar sesión</button>
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                ¿No estas registrado? <a href="#" class="text-orange-600 hover:underline dark:text-orange-700">Crear una cuenta</a>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
