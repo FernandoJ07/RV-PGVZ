@@ -11,11 +11,13 @@
     <div class="w-full overflow-hidden rounded-lg shadow-xs p-10">
         <div class="w-full p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
             <input type="hidden" id="venta_selected_id" value="">
+            <input type="hidden" id="user_superuser" value="{{ request.user.is_superuser }}">
 
             <table id="tabla_ventas" class="tablas w-full whitespace-no-wrap " width="99%">
                 <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3">ID</th>
+                        <th class="px-4 py-3">Nro Venta</th>
                         <th class="px-4 py-3">Fecha</th>
                         <th class="px-4 py-3">Cedula</th>
                         <th class="px-4 py-3">Nombre</th>
@@ -40,6 +42,11 @@
                     <label class="block text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Nro de Venta</span>
                         <input id="venta_detalles_nroVenta" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">Vendedor</span>
+                        <input id="venta_detalles_vendedor" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" readonly>
                     </label>
 
                     <label class="block text-sm">

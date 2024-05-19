@@ -32,6 +32,7 @@ def producto_serialize(self):
 def venta_serialize(self):
 	dict_model = model_to_dict(self)
 	dict_model["nroVenta"] = self.get_nro_venta(),
+	dict_model["vendedor"] = self.vendedor.serialize(),
 	dict_model["fecha"] = self.fecha,
 	dict_model["cliente"] = self.cliente.serialize(),
 	dict_model["productos"] = [producto.serialize() for producto in self.productos.all()],

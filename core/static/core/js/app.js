@@ -831,259 +831,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fill_table('ventas');
 	}
-
-	if(window.location.pathname.split('/')[1] === 'transacciones') {
-        fill_table('transacciones');
-	}
 	
 	if(window.location.pathname.split('/')[1] === 'facturas') {
 		$('#btn_factura_modal_detalles').on('click', function() {
 			$('#detallesFacturaModal').modal('show');
 		});
 	};
-
-	if(window.location.pathname.split('/')[1] === 'servicios') {
-
-        fill_table('servicios');
-        
-		// Agregar servicio
-		$('#btn_servicio_modal_agregar').on('click', function() {
-			modal('#agregarServicioModal', 'show');
-		});
-
-		// Agregar servicio
-		$('#form_servicio_agregar').submit(function(e) {
-			const form_agregar_data = $('#form_servicio_agregar').serializeArray().reduce(function(obj, item) {obj[item.name] = item.value;return obj;}, {});
-
-			fetch('/api/servicios/', {
-		    	method: 'POST',
-		    	body: JSON.stringify(form_agregar_data)
-		   	})
-		    .then(response => response.json())
-		    .then(result => {
-				if(!result.error) {
-					bootstrapAlert('Registro del servicio realizado satisfactoriamente.', 'success');
-					modal('#agregarServicioModal', 'hide');
-		    		this.reset();
-
-		    		setTimeout(() => {
-		    			fill_table('servicios');
-		    		}, 100);
-
-				}
-				else {
-					bootstrapAlert('Se ha producido un fallo al registrar la información del servicio.', 'error');
-				}
-		    })
-		    .catch(function(error) {
-				bootstrapAlert('Se ha producido un fallo al registrar la información del servicio.', 'error');
-		    });
-
-			e.preventDefault();
-		});
-
-		// Modificar servicio
-		$('#form_servicio_modificar').submit(function(e) {
-			servicio_id = document.querySelector('#servicios_selected_id').value;
-			form_modificar_data = $('#form_servicio_modificar').serializeArray().reduce(function(obj, item) {obj[item.name] = item.value;return obj;}, {});
-			
-			fetch('/api/servicios/' + servicio_id, {
-		    	method: 'PUT',
-		    	body: JSON.stringify(form_modificar_data)
-		   	})
-		    .then(response => response.json())
-		    .then(result => {
-		    	if(!result.error) {
-		    		bootstrapAlert('Actualización de la información del servicio realizada satifastoriamente.', 'success');
-		    		modal('#modificarServicioModal', 'hide');
-		    		this.reset();
-
-		    		setTimeout(() => {
-		    			fill_table('servicios');
-		    		}, 100);
-		    	} else if(result.error == 'DoesNotExist.') {
-		    		bootstrapAlert('El servicio no se encuentra registrado en el sistema.', 'error');
-		    	} else if(result.error == 'ValueError.') {
-		    		bootstrapAlert('Asegúrese de completar todos los campos de forma adecuada.', 'error');
-		    	} else {
-		    		bootstrapAlert('Se ha producido un fallo al actualizar la información del servicio.');
-		    	}
-		    })
-		    .catch(function(error) {
-		    	bootstrapAlert('Se ha producido un fallo al actualizar la información del servicio.');
-		    });
-
-			e.preventDefault();
-		});
-
-		// Eliminar servicio
-		$('#btn_servicio_eliminar').on('click', function() {
-			servicios_selected_id = document.querySelector('#servicios_selected_id').value;
-
-			fetch('/api/servicios/' + servicios_selected_id, {
-		    	method: 'DELETE',
-		    	body: JSON.stringify({})
-		   	})
-		    .then(response => response.json())
-		    .then(result => {
-		    	if(!result.error) {
-					modal('#eliminarServicioModal', 'hide');
-		    		bootstrapAlert('Información del servicio eliminada satisfactoriamente.', 'success');
-
-		    		setTimeout(() => {
-						fill_table('servicios');
-					}, 100);
-
-		    	} else if(result.error == 'DoesNotExist.') {
-		    		modal('#eliminarServicioModal', 'hide');
-		    		bootstrapAlert('El servicio no se encuentra registrado en el sistema.', 'error');
-		    	}else if(result.error == 'No permission.') {
-					modal('#eliminarServicioModal', 'hide');
-					bootstrapAlert('Los privilegios de tu cuenta no permiten eliminar la información de los servicios.', 'error');
-				}else {
-		    		bootstrapAlert('Se ha producido un fallo al eliminar la información del servicio.');
-		    	}
-		    })
-		    .catch(function(error) {
-		    	bootstrapAlert('Se ha producido un fallo al eliminar la información del servicio.');
-		    });
-		});
-	}
-
-	if(window.location.pathname.split('/')[1] === 'registro-servicios') {
-		const clients_options = document.querySelector('#clients_options');
-
-		updateServicesSelect();
-
-		//Busca y rellena el select para seleccionar un cliente para la venta
-		fetch('/api/clientes')
-		.then(response => response.json())
-		.then(data => {
-			data.forEach(cliente => {
-				var opt = document.createElement('option');
-				opt.value = cliente.id;
-				opt.innerHTML = cliente.names;
-				clients_options.appendChild(opt);
-			});
-
-		})
-		.catch(function(error) {console.log('Error buscar clientes: ' + error);});
-
-		setTimeout(() => {
-			$(clients_options).selectpicker();
-		}, 500);
-		
-		//Añade la información correspondiente al producto que está en el selectpicker oculto y lo añade a los que se generan en la tabla de venta
-		$('#registro_agregar_servicios tbody').off('change', '.select_servicio');
-		$('#registro_agregar_servicios tbody').on('change', '.select_servicio', function () {
-			const precio = $("option[value=" + $(this).val() + "]", this).attr('data-precio');
-
-			let tr = this.parentElement.parentElement.parentElement.parentElement.parentElement;
-			
-			tr.querySelector('.input_precio').value = precio;
-			tr.querySelector('.input_precio_original').value = precio;
-		});
-
-		$(document).on('change, mouseup, keyup, input', '#registro_agregar_servicios tbody .input_cantidad', function () {
-			const precio = $(this).closest('tr').find('.input_precio_original').val();
-			$(this).closest('tr').find('.input_precio').val(precio);
-		});
-
-		$('#btn_generar_servicio_facturado').on('click', function() {
-			const clienteId = document.getElementById('clients_options').options[document.getElementById('clients_options').selectedIndex].value;
-			const servicios = servicios_get_table_data("registro_agregar_servicios")
-
-			const data = {
-				cliente: clienteId,
-				servicios: servicios
-			}
-
-			fetch('/api/servicio-facturado/', {
-		    	method: 'POST',
-		    	body: JSON.stringify(data)
-		   	})
-		    .then(response => response.json())
-		    .then(result => {
-				if (result.message) {
-					updateProductSelect();
-					servicio_reset_table("registro_agregar_servicios");
-					
-					bootstrapAlert(result.message, 'success');
-				} else if (result.error) {
-					bootstrapAlert(result.error, 'danger');
-				}
-		    })
-		    .catch(function(error) {
-		    	console.log('Error: ' + error);
-				bootstrapAlert('Error en la conexión o respuesta del servidor.', 'danger');
-		    });
-		});
-
-	};
-
-	if(window.location.pathname.split('/')[1] === 'servicio-facturado') {
-
-        fill_table('servicio-facturado');
-
-		
-
-		// Modal generar Factura
-		$('#tabla_servicios_facturados tbody').off('click', '.btn_venta_modal_factura');
-		$('#tabla_servicios_facturados tbody').on('click', '.btn_venta_modal_factura', function () {
-			row = $(this).parents('tr')[0];
-			venta_id = row.cells[0].innerHTML;
-			$('#generar_factura_id').val(venta_id)
-			$('#generarFacturaModal').modal('show');
-		});
-
-		//Ver factura servicio
-		$('#tabla_servicios_facturados tbody').off('click', '.btn_reporte_factura_servicio');
-		$('#tabla_servicios_facturados tbody').on('click', '.btn_reporte_factura_servicio', function () {
-			row = $(this).parents('tr')[0];
-			factura_servicio_id = row.cells[0].innerHTML;
-
-			window.open('http://' + location.host + '/pdf/factura_servicio/' + factura_servicio_id, '_blank');
-		});
-
-		// Generar Factura
-		$('#btn_generar_factura').on('click', function() {
-			venta_id = $('#generar_factura_id').val();
-			descripcion = $('#factura_descripcion').val();
-
-			const data = {
-				venta_id: venta_id,
-				descripcion: descripcion
-			}
-
-			fetch('/api/facturas/', {
-		    	method: 'POST',
-		    	body: JSON.stringify(data)
-		   	})
-		    .then(response => response.json())
-		    .then(result => {
-		    	if(!result.error) {
-		    		$('#generarFacturaModal').modal('hide');
-		    		bootstrapAlert(result.success, 'success');
-					$('#factura_descripcion').val("")
-
-		    		setTimeout(() => {
-						fill_table('ventas');
-					}, 100);
-		    	}else {
-		    		bootstrapAlert(result.error, 'warning');
-		    	}
-				
-		    	// else if(result.error == 'No permission.') {
-		    	// 	$('#eliminarClienteModal').modal('hide');
-		    	// 	bootstrapToast('Tu cuenta no tiene permisos para eliminar clientes', 'info');
-		    	// } 
-		    })
-		    .catch(function(error) {
-		    	bootstrapAlert('Ha ocurrido un error al eliminar cliente', 'danger');
-		    	console.log('Error: ' + error);
-		    });
-		});
-	}
 
 });
 
@@ -1164,19 +917,19 @@ function fill_table(tipo) {
 							modal('#modificarClienteModal', 'show');
 						}
 				},
-				{
-					'name': 'btn_toggle_cliente',
-					'text': 'Eliminar',
-					'attr':  {
-						'id': 'btn_toggle_cliente', 
-						'class': 'btn_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-						'disabled': true
-					},
-					'action':
-						function(e) {
-							modal('#eliminarClienteModal', 'show');
-						}
-				}
+				// {
+				// 	'name': 'btn_toggle_cliente',
+				// 	'text': 'Deshabilitar',
+				// 	'attr':  {
+				// 		'id': 'btn_toggle_cliente', 
+				// 		'class': 'btn_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+				// 		'disabled': true
+				// 	},
+				// 	'action':
+				// 		function(e) {
+				// 			modal('#eliminarClienteModal', 'show');
+				// 		}
+				// }
 			],
 			'select': true,
             'bInfo': false,
@@ -1343,19 +1096,19 @@ function fill_table(tipo) {
                             modal('#modificarUsuarioModal', 'show');
                         }
                 },
-                {
-                    'name': 'btn_toggle_usuario',
-                    'text': 'Eliminar',
-                    'attr':  {
-                        'id': 'btn_toggle_usuario', 
-                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            modal('#eliminarUsuarioModal', 'show');
-                        }
-                }
+                // {
+                //     'name': 'btn_toggle_usuario',
+                //     'text': 'Deshabilitar',
+                //     'attr':  {
+                //         'id': 'btn_toggle_usuario', 
+                //         'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                //         'disabled': true
+                //     },
+                //     'action':
+                //         function(e) {
+                //             modal('#eliminarUsuarioModal', 'show');
+                //         }
+                // }
             ],
 			'select': true,
             'bInfo': false,
@@ -1522,19 +1275,19 @@ function fill_table(tipo) {
                             modal('#modificarProveedorModal', 'show');
                         }
                 },
-                {
-                    'name': 'btn_toggle_proveedor',
-                    'text': 'Eliminar',
-                    'attr':  {
-                        'id': 'btn_toggle_proveedor', 
-                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            modal('#eliminarProveedorModal', 'show');
-                        }
-                }
+                // {
+                //     'name': 'btn_toggle_proveedor',
+                //     'text': 'Deshabilitar',
+                //     'attr':  {
+                //         'id': 'btn_toggle_proveedor', 
+                //         'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+                //         'disabled': true
+                //     },
+                //     'action':
+                //         function(e) {
+                //             modal('#eliminarProveedorModal', 'show');
+                //         }
+                // }
             ],
 			'select': true,
             'bInfo': false,
@@ -1736,19 +1489,19 @@ function fill_table(tipo) {
 							modal('#modificarProductoModal', 'show');
 						}
 				},
-				{
-					'name': 'btn_toggle_producto',
-					'text': 'Eliminar',
-					'attr':  {
-						'id': 'btn_toggle_producto', 
-						'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-						'disabled': true
-					},
-					'action':
-						function(e) {
-							modal('#eliminarProductoModal', 'show');
-						}
-				},
+				// {
+				// 	'name': 'btn_toggle_producto',
+				// 	'text': 'Deshabilitar',
+				// 	'attr':  {
+				// 		'id': 'btn_toggle_producto', 
+				// 		'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
+				// 		'disabled': true
+				// 	},
+				// 	'action':
+				// 		function(e) {
+				// 			modal('#eliminarProductoModal', 'show');
+				// 		}
+				// },
 				{
 					'name': 'btn_cantidad_producto',
 					'text': 'Sumar/Restar cantidad',
@@ -1811,7 +1564,7 @@ function fill_table(tipo) {
 					"targets": [3], 
 					"render": function ( data, type, row ) {
 						// Formatea el número usando la función Number.toLocaleString()
-						return Number(row.precio).toLocaleString('es-ES');
+						return `$ ${Number(row.precio).toLocaleString('es-ES')}`;
 					}
 				},
 			],
@@ -1838,96 +1591,122 @@ function fill_table(tipo) {
 			table.button('btn_cantidad_producto:name').nodes().attr('disabled', btn_disabled_value);
 		});
 
-    } else if(tipo === 'ventas') {
-        table = $('#tabla_ventas').DataTable({
+    } else if (tipo === 'ventas') {
+
+		var button_excel = [];
+		const is_superuser = document.querySelector('#user_superuser').value
+		if(is_superuser === "True"){
+			var exportarButton = {
+				'extend': 'excel',
+				'text': 'Exportar', 
+				'filename': function() {
+					var date = new Date();
+					var day = date.getDate();
+					var month = date.getMonth() + 1;
+					var year = date.getFullYear();
+					return 'Resumen de venta ' + year + '-' + month + '-' + day;
+				},
+				'attr': {
+					'class': 'text-white font-semibold py-2 px-4 rounded shadow',
+					'style': 'background-color:#167f47'
+				},
+			};
+
+			button_excel.push(exportarButton);
+		}
+		table = $('#tabla_ventas').DataTable({
 			'dom': 'Bfrtip',
 			'buttons': [
-                {
-                    'name': 'btn_detalles_venta',
-                    'text': 'Detalles Venta',
-                    'attr':  {
-                        'id': 'btn_detalles_venta', 
-                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            venta_selected_id = document.querySelector('#venta_selected_id').value;
-
-                            if(!venta_selected_id) {
-                                alert('No ha seleccionado ninguna venta');
-                                return;
-                            }
-
-                            fetch('/api/ventas/' + venta_selected_id)
-                            .then(response => response.json())
-                            .then(venta => {
-                                const cliente = venta.cliente[0];
+				{
+					'name': 'btn_detalles_venta',
+					'text': 'Detalles Venta',
+					'attr': {
+						'id': 'btn_detalles_venta',
+						'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow',
+						'disabled': true
+					},
+					'action': function (e) {
+						venta_selected_id = document.querySelector('#venta_selected_id').value;
+	
+						if (!venta_selected_id) {
+							alert('No ha seleccionado ninguna venta');
+							return;
+						}
+	
+						fetch('/api/ventas/' + venta_selected_id)
+							.then(response => response.json())
+							.then(venta => {
+								const cliente = venta.cliente[0];
+								const vendedor = venta.vendedor[0];
+	
 								document.querySelector('#venta_detalles_nroVenta').value = venta.nroVenta;
+								document.querySelector('#venta_detalles_vendedor').value = vendedor.shortname;
 								document.querySelector('#venta_detalles_fecha').value = venta.fecha;
-								document.querySelector('#venta_detalles_total').value = venta.total;
+								document.querySelector('#venta_detalles_total').value = Number(venta.total).toLocaleString('es-ES');
 								document.querySelector('#venta_detalles_cedula').value = cliente.cedula;
 								document.querySelector('#venta_detalles_nombres').value = cliente.shortname;
-
+	
 								const contenedor = document.getElementById('productos_informacion');
 								contenedor.innerHTML = '';
 								const productos = venta.productos[0];
 								var contador = 0;
-
+	
 								const titulo = document.createElement('h3');
 								titulo.textContent = 'Productos Asociados';
 								titulo.classList.add('servicios_titulo', 'text-lg', 'font-semibold', 'text-gray-600', 'dark:text-gray-300');
 								contenedor.appendChild(titulo);
-								
+	
 								productos.forEach((producto) => {
 									const contenedor_labels = document.createElement('div')
 									contenedor_labels.classList.add('contenedor_labels')
 									contenedor.appendChild(contenedor_labels);
-
+	
 									generar_div("Nombre", producto.nombre, contenedor_labels)
-									generar_div("Precio", producto.precio, contenedor_labels)
+									generar_div("Precio", Number(producto.precio).toLocaleString('es-ES'), contenedor_labels)
 									generar_div("Descripcion", producto.descripcion, contenedor_labels)
 									if (producto.extra.marca !== undefined) generar_div("Marca", producto.extra.marca, contenedor_labels);
-
+	
 									generar_div("Cantidad Solicitada", venta.cantidad[0][venta.detalles[0][contador].id], contenedor_labels);
 									contador++;
-									
-									if(producto.extra.producto_type == 2){
+	
+									if (producto.extra.producto_type == 2) {
 										generar_div("Medidas", producto.extra.medidas, contenedor_labels)
 										generar_div("Calidad", producto.extra.calidad, contenedor_labels)
-									}else if(producto.extra.producto_type == 3){
+									} else if (producto.extra.producto_type == 3) {
 										generar_div("Vizcocidad", producto.extra.vizcosidad, contenedor_labels)
 										generar_div("Tipo", producto.extra.tipo, contenedor_labels)
 									}
-
+	
 								});
-                            })
-                            .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar la venta', 'error');
-                            });
-
-                            modal('#detallesVentaModal', 'show');
-                        }
-                },
-            ],
+							})
+							.catch(function (error) {
+								bootstrapAlert('Ha ocurrido un error al buscar la venta', 'error');
+							});
+	
+						modal('#detallesVentaModal', 'show');
+					}
+				},
+				button_excel
+			],
 			'select': true,
-            'bInfo': false,
-            'pageLength': 8,
-            'destroy': true,
-            'lengthChange': false,
-            'deferRender': true,
-			'language': {'url': '/media/datatables-languages/es-ES_default.json'},
+			'bInfo': false,
+			'pageLength': 8,
+			'destroy': true,
+			'lengthChange': false,
+			'deferRender': true,
+			'language': { 'url': '/media/datatables-languages/es-ES_default.json' },
 			'ajax': {
 				'url': '/api/ventas',
 				'type': 'GET',
 				'dataSrc': '',
-				'error': function(jqXHR, ajaxOptions, thrownError) {
+				'error': function (jqXHR, ajaxOptions, thrownError) {
 					bootstrapAlert('Ha ocurrido un error al cargar las ventas ', 'error');
 					console.log(data)
-				 }
+				}
 			},
 			'columns': [
 					{"data": "id"},
+					{"data": "nroVenta"},
 					{"data": "fecha"},
 					{"data": "cliente[0].cedula"},
 					{"data": "cliente[0].shortname"},
@@ -1937,6 +1716,14 @@ function fill_table(tipo) {
 					{className: 'hidden', searchable: false, targets: [ 0 ]},
 					{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 					{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
+					{
+						// El índice de la columna que quieres formatear (empezando desde 0)
+						"targets": [-1], 
+						"render": function ( data, type, row ) {
+							// Formatea el número usando la función Number.toLocaleString()
+							return `$ ${Number(row.total).toLocaleString('es-ES')}`;
+						}
+					},
 					
 	
 				]
@@ -1959,329 +1746,12 @@ function fill_table(tipo) {
             btn_disabled_value = (venta_selected.value == '');
     
             table.button('btn_detalles_venta:name').nodes().attr('disabled', btn_disabled_value);
-            table.button('btn_modificar_venta:name').nodes().attr('disabled', btn_disabled_value);
-            table.button('btn_toggle_venta:name').nodes().attr('disabled', btn_disabled_value);
+            table.button('btn_excel:name').nodes().attr('disabled', btn_disabled_value);
         });
-
-    } else if(tipo === 'transacciones') {
-		$("#tabla_transacciones thead").hide();
-        table = $('#tabla_transacciones').DataTable({
-			'dom': 'Bfrtip',
-			'select': true,
-            'bInfo': false,
-            'pageLength': 8,
-            'destroy': true,
-            'lengthChange': false,
-            'deferRender': true,
-			'language': {'url': '/media/datatables-languages/es-ES_default.json'},
-			'ajax': {
-				'url': '/api/transacciones',
-				'type': 'GET',
-				'dataSrc': '',
-				'error': function(jqXHR, ajaxOptions, thrownError) {
-					bootstrapAlert('Ha ocurrido un error al cargar inventario', 'danger');
-					console.log('Error buscar productos: ' + thrownError);
-				 }
-			},
-			'columns': [
-                {
-                    render: function (data, type, row, meta) {
-
-						html = `
-                            <input type="hidden" name="transaccion_id" value="${row.id}">
-
-                            <div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-								<p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-									Id: ${row.id}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Acción: ${row.accion}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Producto: ${row.producto[0].nombre}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Cliente: ${row.cliente[0]}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Usuario: ${row.usuario[0]}
-								</p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Cantidad: ${row.cantidad}
-								</p>
-                            </div>
-                        `;
-                        
-                        return html;
-                    }
-                },
-            ],
-		});
 
 		
-    } else if(tipo === 'servicios') {
-        table = $('#tabla_servicios').DataTable({
-			'dom': 'Bfrtip',
-			'buttons': [
-                {
-                    'name': 'btn_detalles_servicio',
-                    'text': 'Detalles servicio',
-                    'attr':  {
-                        'id': 'btn_detalles_servicio', 
-                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            servicios_selected_id = document.querySelector('#servicios_selected_id').value;
 
-                            if(!servicios_selected_id) {
-                                bootstrapAlert('Debe seleccionar un servicio.', 'warning');
-                                return;
-                            }
-
-                            fetch('/api/servicios/' + servicios_selected_id)
-                            .then(response => response.json())
-                            .then(servicio => {
-                                document.querySelector('#servicio_detalles_codigo').value = servicio.codigo;
-								document.querySelector('#servicio_detalles_nombre').value = servicio.nombre;
-                                document.querySelector('#servicio_detalles_precio').value = servicio.precio;
-                            })
-                            .catch(function(error) {
-                                bootstrapAlert('Se ha producido un fallo buscando la información del servicio.', 'error');
-                                console.log('Error buscar servicio: ' + error);
-                            });
-
-                            modal('#detallesServicioModal', 'show');
-                        }
-                },
-                {
-                    'name': 'btn_modificar_servicio',
-                    'text': 'Editar',
-                    'attr':  {
-                        'id': 'btn_modificar_servicio', 
-                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            servicios_selected_id = document.querySelector('#servicios_selected_id').value;
-
-                            if(!servicios_selected_id) {
-                                bootstrapAlert('Debe seleccionar un servicio.', 'warning');
-                                return;
-                            }
-
-                            fetch('/api/servicios/' + servicios_selected_id)
-                            .then(response => response.json())
-                            .then(servicio => {
-                                document.querySelector('#servicio_modificar_codigo').value = servicio.codigo;
-                                document.querySelector('#servicio_modificar_nombre').value = servicio.nombre;
-                                document.querySelector('#servicio_modificar_precio').value = servicio.precio;
-                            })
-                            .catch(function(error) {
-                                bootstrapAlert('Se ha producido un fallo buscando la información del servicio.', 'error');
-                                console.log('Error buscar servicio: ' + error);
-                            });
-
-                            modal('#modificarServicioModal', 'show');
-                        }
-                },
-                {
-                    'name': 'btn_toggle_servicio',
-                    'text': 'Eliminar',
-                    'attr':  {
-                        'id': 'btn_toggle_servicio', 
-                        'class': 'btn_edit_and_delete_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            modal('#eliminarServicioModal', 'show');
-                        }
-                }
-            ],
-			'select': true,
-            'bInfo': false,
-            'pageLength': 8,
-            'destroy': true,
-            'lengthChange': false,
-            'deferRender': true,
-			'language': {'url': '/media/datatables-languages/es-ES_default.json'},
-			'ajax': {
-				'url': '/api/servicios',
-				'type': 'GET',
-				'dataSrc': '',
-				'error': function(jqXHR, ajaxOptions, thrownError) {
-					bootstrapAlert('Se ha producido un fallo buscando la información de servicios.', 'error');
-					console.log('Error buscar servicios: ' + thrownError);
-				 }
-			},
-			'columns': [
-				{"data": "id"},
-                {"data": "codigo"},
-                {"data": "nombre"},
-                {"data": "precio"},
-            ],
-			"columnDefs": [
-				{className: 'hidden', searchable: false, targets: [ 0 ]},
-				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
-				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
-			]
-		});
-
-		$('#tabla_servicios tbody').off('click', 'tr').on('click', 'tr', function () {
-            const servicios_selected = document.querySelector('#servicios_selected_id');
-            const current_servicio = this.children[0] ? this.children[0].innerText : '';
-
-
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-                servicios_selected.value = '';
-            } else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-                servicios_selected.value = current_servicio;
-            }
-
-            btn_disabled_value = (servicios_selected.value == '');
-    
-            table.button('btn_detalles_servicio:name').nodes().attr('disabled', btn_disabled_value);
-            table.button('btn_modificar_servicio:name').nodes().attr('disabled', btn_disabled_value);
-            table.button('btn_toggle_servicio:name').nodes().attr('disabled', btn_disabled_value);
-        });
-
-
-	} else if(tipo === 'servicio-facturado') {
-		$("#tabla_servicios_facturados thead").hide();
-        table = $('#tabla_servicios_facturados').DataTable({
-			'dom': 'Bfrtip',
-            'buttons': [
-                {
-                    'name': 'btn_detalles_servicios_facturados',
-                    'text': 'Detalles servicios facturados',
-                    'attr':  {
-                        'id': 'btn_detalles_servicios_facturados', 
-                        'class': 'btn_detail_color bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow', 
-                        'disabled': true
-                    },
-                    'action':
-                        function(e) {
-                            servicios_facturados_selected_id = document.querySelector('#servicios_facturados_selected_id').value;
-
-                            if(!servicios_facturados_selected_id) {
-                                alert('No hay servicios facturados seleccionado');
-                                return;
-                            }
-
-                            fetch('/api/servicio-facturado/' + servicios_facturados_selected_id)
-                            .then(response => response.json())
-                            .then(servicio_facturado => {
-
-                                document.querySelector('#servicio_facturado_detalles_cedula').value = servicio_facturado.cliente.cedula;
-                                document.querySelector('#servicio_facturado_detalles_fullname').value = servicio_facturado.cliente.fullname;
-                                document.querySelector('#servicio_facturado_detalles_num_tlfno').value = servicio_facturado.cliente.num_tlf;
-                                document.querySelector('#servicio_facturado_detalles_precio').value = servicio_facturado.precio;
-
-
-								const contenedor = document.getElementById('servicios_informacion');
-								contenedor.innerHTML = '';
-
-								const titulo = document.createElement('h4');
-								titulo.textContent = 'Servicios Asociados';
-								titulo.classList.add('servicios_titulo', 'text-lg', 'font-semibold', 'text-gray-600', 'dark:text-gray-300');
-								contenedor.appendChild(titulo);
-								
-								const serviciosFacturado = servicio_facturado.servicios;
-								serviciosFacturado.forEach((servicioFacturado) => {
-									const contenedor_labels = document.createElement('div')
-									contenedor_labels.classList.add('contenedor_labels')
-									contenedor.appendChild(contenedor_labels);
-
-									generar_div("Código", servicioFacturado.codigo, contenedor_labels)
-									generar_div("Nombre", servicioFacturado.nombre, contenedor_labels)
-									generar_div("Precio", servicioFacturado.precio, contenedor_labels)
-
-								});
-                            })
-                            .catch(function(error) {
-                                bootstrapAlert('Ha ocurrido un error al buscar el servicio', 'error');
-                                console.log('Error buscar servicio: ' + error);
-                            });
-
-                            modal('#detallesServiciosFacturadosModal', 'show');
-                        }
-                },
-			],
-			'select': true,
-            'bInfo': false,
-            'pageLength': 8,
-            'destroy': true,
-            'lengthChange': false,
-            'deferRender': true,
-			'language': {'url': '/media/datatables-languages/es-ES_default.json'},
-			'ajax': {
-				'url': '/api/servicio-facturado/',
-				'type': 'GET',
-				'dataSrc': '',
-				'error': function(jqXHR, ajaxOptions, thrownError) {
-					bootstrapAlert('Ha ocurrido un error al cargar los servicios', 'danger');
-				 }
-			},
-			'columns': [
-                {
-                    render: function (data, type, row, meta) {
-                        html = `
-                            <input type="hidden" name="servicios_facturados_id" value="${row.id}">
-
-                            <div class="flex flex-col p-4 bg-purple-600 rounded-lg shadow-xl dark:bg-purple-600">
-                                <p class="mb-2 text-xl font-bold text-gray-300 dark:text-gray-300">
-                                    ${row.cliente.cedula}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.cliente.fullname}
-                                </p>
-                                <p class="text-lg text-gray-200 dark:text-gray-200">
-                                    ${row.cliente.num_tlf}
-                                </p>
-								<p class="text-lg text-gray-200 dark:text-gray-200">
-									Monto: ${row.precio}
-								</p>
-                            </div>
-                        `;
-                        
-                        return html;
-                    }
-                },
-            ],
-		});
-
-		$('#tabla_servicios_facturados tbody').off('click', 'tr').on('click', 'tr', function () {
-            const servicios_facturados_selected = document.querySelector('#servicios_facturados_selected_id');
-            const current_servicio_facturado = this.children[0] ? this.children[0].innerText : '';
-
-
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-                servicios_facturados_selected.value = '';
-            } else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-                servicios_facturados_selected.value = current_servicio_facturado;
-            }
-
-            btn_disabled_value = (servicios_facturados_selected.value == '');
-    
-            table.button('btn_detalles_servicios_facturados:name').nodes().attr('disabled', btn_disabled_value);
-            table.button('btn_modificar_servicios_facturados:name').nodes().attr('disabled', btn_disabled_value);
-            table.button('btn_toggle_servicios_facturados:name').nodes().attr('disabled', btn_disabled_value);
-        });
-
-        table.on('draw', function(data) {
-            $('#tabla_servicios_facturados tbody').addClass('flex flex-wrap');
-            $('#tabla_servicios_facturados tbody tr').addClass('lg:w-1/4 md:w-1/3 sm:w-full');
-        });
-	}
+    }
 }
 
 function productos_get_table_data(table_id) {
@@ -2304,48 +1774,6 @@ function productos_get_table_data(table_id) {
 
 
     return all_data_table;
-}
-
-function servicios_get_table_data(table_id) {
-    let all_data_table = [];
-
-    $('#' + table_id + ' tbody tr').each(function(index) {
-
-		const servicio_id = this.children[1].querySelector('.select_servicio').value;
-        const monto = this.children[2].children[0].children[1].value;
-
-        if (servicio_id) {
-            let current = {
-                codigo: servicio_id,
-                monto: monto,
-            };
-            all_data_table.push(current);
-        }
-    });
-
-    return all_data_table;
-}
-
-function updateServicesSelect() {
-	const services_options = document.querySelector('#services_options');
-
-	$(services_options).selectpicker('destroy').empty().append('<option value="" selected>Seleccionar servicio</option>');
-	fetch('/api/servicios')
-	.then(response => response.json())
-	.then(data => {
-		data.forEach(servicio => {
-			var opt = document.createElement('option');
-			opt.value = servicio.codigo;
-			opt.innerHTML = servicio.nombre;
-			opt.dataset.precio = servicio.precio;
-			services_options.appendChild(opt);
-			
-		});
-
-		servicio_reset_table('registro_agregar_servicios');
-		
-	})
-	.catch(function(error) {console.log('Error buscar servicios: ' + error);});
 }
 
 function updateProductSelect() {
@@ -2461,64 +1889,6 @@ function productos_add_table_row(table_id) {
 	// $('.selectpicker').selectpicker();
 }
 
-function servicios_add_table_row(table_id) {
-	const count = $('#' + table_id + ' tbody tr').length;
-	const select_options = document.querySelector('#services_options').innerHTML;
-
-	$('#' + table_id).find('tbody').append(
-		`
-		<tr class="text-gray-700 dark:text-gray-400">
-			<td class="px-4 py-3">
-				<div class="flex items-center text-sm">
-					<div>
-						<p class="font-semibold">${count+1}</p>
-
-					</div>
-				</div>
-			</td>
-			<td class="px-4 py-3">
-				<div class="text-sm">
-					<label class="block text-sm">
-						<div class=" text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-							<select
-								class="select_servicio block w-24 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
-								data-live-search="true">
-								<option value="">${select_options}</option>
-							</select>
-
-						</div>
-					</label>
-				</div>
-			</td>
-			<td class="px-4 py-3 text-sm">
-				<label class="block text-sm">
-					<span class="text-gray-700 dark:text-gray-400">Monto</span>
-					<input
-						class="input_precio block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-						placeholder="0,00" type="number" step=".01" value="0.00" readonly />
-						<input type="hidden" class="input_precio_original" readonly>
-				</label>
-			</td>
-			<td class="px-4 py-3">
-				<div class="flex items-center space-x-4 text-sm">
-					<button
-						class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-						aria-label="Delete" onclick="delete_row(this)">
-						<svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-							<path fill-rule="evenodd"
-								d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-								clip-rule="evenodd"></path>
-						</svg>
-					</button>
-				</div>
-			</td>
-		</tr>
-		`
-	);
-
-	// $('.selectpicker').selectpicker();
-}
-
 function productos_load_table_data(table_id, data) {
 	if(data) {
 		$('#' + table_id + ' tbody tr').remove();
@@ -2545,12 +1915,6 @@ function productos_load_table_data(table_id, data) {
 function producto_reset_table(table_id) {
 	$('#' + table_id + ' tbody tr').remove();
 	productos_add_table_row(table_id);
-}
-
-function servicio_reset_table(table_id) {
-	$('#' + table_id + ' tbody tr').remove();
-	servicios_add_table_row(table_id);
-
 }
 
 function delete_row(btn) {

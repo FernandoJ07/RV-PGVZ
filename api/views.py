@@ -450,7 +450,12 @@ def ventas(request, id=None):
                 return JsonResponse({"error": "IntegrityError."}, status=417)
             except Cliente.DoesNotExist:
                 return JsonResponse({"error": "DoesNotExist."}, status=417)
-        return JsonResponse([venta.serialize() for venta in Venta.objects.all()], safe=False)
+            
+        if not request.user.is_gerente_ventas and not request.user.is_superuser:
+            ventas = Venta.objects.filter(vendedor=request.user)
+        else:
+            ventas = Venta.objects.all()
+        return JsonResponse([venta.serialize() for venta in ventas], safe=False)
         
     if request.method == "POST":
         try:
@@ -472,7 +477,7 @@ def ventas(request, id=None):
 
 
             with transaction.atomic():
-                venta = Venta.objects.create(cliente=cliente)
+                venta = Venta.objects.create(cliente=cliente, vendedor=request.user)
                 total_venta = 0
 
                 for producto in productos:

@@ -309,6 +309,7 @@ class Inventario(models.Model):
 class Venta(models.Model):
 	fecha = models.DateField(auto_now_add=True)
 	cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+	vendedor = models.ForeignKey(User,on_delete=models.CASCADE)
 	productos = models.ManyToManyField(Producto, through='DetalleVenta')
 	total = models.FloatField(default=0)
 	
