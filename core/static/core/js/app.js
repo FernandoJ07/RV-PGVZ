@@ -832,12 +832,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fill_table('ventas');
 	}
 	
-	if(window.location.pathname.split('/')[1] === 'facturas') {
-		$('#btn_factura_modal_detalles').on('click', function() {
-			$('#detallesFacturaModal').modal('show');
-		});
-	};
-
 });
 
 function fill_table(tipo) {
@@ -932,6 +926,7 @@ function fill_table(tipo) {
 				// }
 			],
 			'select': true,
+			'scrollX': true,
             'bInfo': false,
             'pageLength': 8,
             'destroy': true,
@@ -1111,6 +1106,7 @@ function fill_table(tipo) {
                 // }
             ],
 			'select': true,
+			'scrollX': true,
             'bInfo': false,
             'pageLength': 8,
             'destroy': true,
@@ -1290,6 +1286,7 @@ function fill_table(tipo) {
                 // }
             ],
 			'select': true,
+			'scrollX': true,
             'bInfo': false,
             'pageLength': 8,
             'destroy': true,
@@ -1404,25 +1401,8 @@ function fill_table(tipo) {
 								document.querySelector('#producto_detalles_nombre').value = producto.nombre;
 								document.querySelector('#producto_detalles_descripcion').value = producto.descripcion;
 								document.querySelector('#producto_detalles_cantidad').value = producto.cantidad;
-								document.querySelector('#producto_detalles_precio').value = producto.precio;
+								document.querySelector('#producto_detalles_precio').value = Number(producto.precio).toLocaleString('es-ES');
 
-								if(producto.producto_type == '2') {
-									document.querySelector('#producto_detalles_caucho_marca').value = producto.extra.marca;
-									document.querySelector('#producto_detalles_caucho_medidas').value = producto.extra.medidas;
-									document.querySelector('#producto_detalles_caucho_calidad').value = producto.extra.calidad;
-									document.querySelector('#producto_detalles_caucho_fabricacion').value = producto.extra.fecha_fabricacion;
-
-									$('#container_producto_detalles_caucho').show();
-								}
-
-								if(producto.producto_type == '3') {
-									document.querySelector('#producto_detalles_rin_marca').value = producto.extra.marca;
-									document.querySelector('#producto_detalles_rin_material').value = producto.extra.material;
-									document.querySelector('#producto_detalles_rin_tamano').value = producto.extra.tamano;
-									document.querySelector('#producto_detalles_rin_fabricacion').value = producto.extra.fecha_fabricacion;
-
-									$('#container_producto_detalles_rin').show();
-								}
 
 							})
 							.catch(function(error) {
@@ -1461,24 +1441,6 @@ function fill_table(tipo) {
 								document.querySelector('#producto_modificar_precio').value = producto.precio;
 
 								document.querySelector('#producto_modificar_tipo').value = producto.producto_type;
-
-								if(producto.producto_type == '2') {
-									document.querySelector('#producto_modificar_caucho_marca').value = producto.extra.marca;
-									document.querySelector('#producto_modificar_caucho_medidas').value = producto.extra.medidas;
-									document.querySelector('#producto_modificar_caucho_calidad').value = producto.extra.calidad;
-									document.querySelector('#producto_modificar_caucho_fabricacion').value = producto.extra.fecha_fabricacion;
-
-									$('#container_producto_modificar_caucho').show();
-								}
-
-								if(producto.producto_type == '3') {
-									document.querySelector('#producto_modificar_rin_marca').value = producto.extra.marca;
-									document.querySelector('#producto_modificar_rin_material').value = producto.extra.material;
-									document.querySelector('#producto_modificar_rin_tamano').value = producto.extra.tamano;
-									document.querySelector('#producto_modificar_rin_fabricacion').value = producto.extra.fecha_fabricacion;
-
-									$('#container_producto_modificar_rin').show();
-								}
 
 							})
 							.catch(function(error) {
@@ -1525,6 +1487,7 @@ function fill_table(tipo) {
 				
 			],
 			'select': true,
+			'scrollX': true,
             'bInfo': false,
             'pageLength': 8,
             'destroy': true,
@@ -1551,19 +1514,15 @@ function fill_table(tipo) {
 				{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 				{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 				{
-					// El índice de la columna que quieres formatear (empezando desde 0)
 					"targets": [2], 
 					"render": function ( data, type, row ) {
 						console.log(row)
-						// Formatea el número usando la función Number.toLocaleString()
 						return Number(row.cantidad).toLocaleString('es-ES');
 					}
 				},
 				{
-					// El índice de la columna que quieres formatear (empezando desde 0)
 					"targets": [3], 
 					"render": function ( data, type, row ) {
-						// Formatea el número usando la función Number.toLocaleString()
 						return `$ ${Number(row.precio).toLocaleString('es-ES')}`;
 					}
 				},
@@ -1664,18 +1623,9 @@ function fill_table(tipo) {
 									generar_div("Nombre", producto.nombre, contenedor_labels)
 									generar_div("Precio", Number(producto.precio).toLocaleString('es-ES'), contenedor_labels)
 									generar_div("Descripcion", producto.descripcion, contenedor_labels)
-									if (producto.extra.marca !== undefined) generar_div("Marca", producto.extra.marca, contenedor_labels);
 	
 									generar_div("Cantidad Solicitada", venta.cantidad[0][venta.detalles[0][contador].id], contenedor_labels);
 									contador++;
-	
-									if (producto.extra.producto_type == 2) {
-										generar_div("Medidas", producto.extra.medidas, contenedor_labels)
-										generar_div("Calidad", producto.extra.calidad, contenedor_labels)
-									} else if (producto.extra.producto_type == 3) {
-										generar_div("Vizcocidad", producto.extra.vizcosidad, contenedor_labels)
-										generar_div("Tipo", producto.extra.tipo, contenedor_labels)
-									}
 	
 								});
 							})
@@ -1689,8 +1639,9 @@ function fill_table(tipo) {
 				button_excel
 			],
 			'select': true,
+			'scrollX': true,
 			'bInfo': false,
-			'pageLength': 8,
+			'pageLength': 3,
 			'destroy': true,
 			'lengthChange': false,
 			'deferRender': true,
@@ -1717,10 +1668,8 @@ function fill_table(tipo) {
 					{className: "font-semibold text-gray-700 dark:text-gray-400", targets: 0},
 					{className: "text-gray-700 dark:text-gray-400", targets: "_all"},
 					{
-						// El índice de la columna que quieres formatear (empezando desde 0)
 						"targets": [-1], 
 						"render": function ( data, type, row ) {
-							// Formatea el número usando la función Number.toLocaleString()
 							return `$ ${Number(row.total).toLocaleString('es-ES')}`;
 						}
 					},

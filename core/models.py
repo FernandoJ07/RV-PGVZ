@@ -105,9 +105,6 @@ class Proveedor(Persona):
 
 class ProductoTypeChoices(models.TextChoices):
 	PRODUCTO = 1, "Producto"
-	CAUCHO = 2, "Caucho"
-	RIN = 3, "Rin"
-	LUBRICANTE = 4, "Lubricante"
 
 class Producto(models.Model):
 	nombre = models.CharField(max_length=50, blank=False, default="")
@@ -141,7 +138,6 @@ class Producto(models.Model):
 			inventario.cantidad += int(cantidad)
 			inventario.save()
 
-			Transaccion.objects.create(producto=self, accion="METER", cantidad=cantidad, usuario=usuario)
 			return inventario.cantidad
 		except Inventario.DoesNotExist:
 			return 0
@@ -154,7 +150,6 @@ class Producto(models.Model):
 				inventario.cantidad -= int(cantidad)
 				inventario.save()
 			
-			Transaccion.objects.create(producto=self, accion="SACAR", cantidad=cantidad, monto=monto, cliente=cliente, usuario=usuario)
 
 			return inventario.cantidad
 		
@@ -177,24 +172,6 @@ class Producto(models.Model):
 		except Inventario.DoesNotExist:
 			return 0
 
-	def get_extra_info(self):
-		producto_type = str(self.producto_type)
-
-		if producto_type == ProductoTypeChoices.PRODUCTO.value:
-			return []
-		
-		elif producto_type == ProductoTypeChoices.CAUCHO.value:
-			return Caucho.objects.filter(id=self.id).first().serialize() if Caucho.objects.filter(id=self.id).first() else []
-		
-		elif producto_type == ProductoTypeChoices.LUBRICANTE.value:
-			return Lubricante.objects.filter(id=self.id).first().serialize() if Lubricante.objects.filter(id=self.id).first() else []
-
-		elif producto_type == ProductoTypeChoices.RIN.value:
-			return Rin.objects.filter(id=self.id).first().serialize() if Rin.objects.filter(id=self.id).first() else []
-		
-		else:
-			return []
-	
 	def save(self, *args, **kwargs):
 		created = not self.pk
 		super(Producto, self).save(*args, **kwargs)
@@ -220,83 +197,6 @@ class Producto(models.Model):
 	
 	def __str__(self):
 		return f"Producto -> {self.id} - {self.nombre}"
-
-class Caucho(Producto):
-	marca = models.CharField(max_length=50, blank=False, default="")
-	medidas = models.CharField(max_length=50, blank=False, default="")
-	calidad = models.CharField(max_length=50, blank=False, default="")
-	fecha_fabricacion = models.DateField(blank=True, null=True)
-
-	@classmethod
-	def create_caucho(cls, nombre, descripcion, cantidad, precio, producto_type, proveedor, detalles):
-		proveedor = Proveedor.objects.get(rif=proveedor)
-
-		new_producto = cls(nombre=nombre, descripcion=descripcion, producto_type=ProductoTypeChoices.CAUCHO, proveedor=proveedor,
-			marca=detalles.get('marca', ''), medidas=detalles.get('medidas', ''), calidad=detalles.get('calidad', ''), fecha_fabricacion=detalles.get('fecha_fabricacion', '')
-		)
-		new_producto.save()
-
-		new_producto.set_cantidad(cantidad)
-		new_producto.set_precio(precio)
-
-		return new_producto
-
-	def serialize(self):
-		return model_to_dict(self)
-	
-	def __str__(self):
-		return f"Caucho -> {self.id} - {self.nombre}"
-
-class Lubricante(Producto):
-	marca = models.CharField(max_length=50, blank=False, default="")
-	vizcosidad = models.CharField(max_length=50, blank=False, default="")
-	tipo = models.CharField(max_length=50, blank=False, default="")
-
-	@classmethod
-	def create_lubricante(cls, nombre, descripcion, cantidad, precio, producto_type, proveedor, detalles):
-		proveedor = Proveedor.objects.get(rif=proveedor)
-
-		new_producto = cls(nombre=nombre, descripcion=descripcion, producto_type=ProductoTypeChoices.LUBRICANTE, proveedor=proveedor,
-			marca=detalles.get('marca', ''), vizcosidad=detalles.get('vizcosidad', ''), tipo=detalles.get('tipo', '')
-		)
-		new_producto.save()
-
-		new_producto.set_cantidad(cantidad)
-		new_producto.set_precio(precio)
-
-		return new_producto
-
-	def serialize(self):
-		return model_to_dict(self)
-	
-	def __str__(self):
-		return f"Lubricante -> {self.id} - {self.nombre}"
-
-class Rin(Producto):
-	marca = models.CharField(max_length=50, blank=False, default="")
-	material = models.CharField(max_length=50, blank=False, default="")
-	tamano = models.CharField(max_length=50, blank=False, default="")
-	fecha_fabricacion = models.DateField(blank=True, null=True)
-
-	@classmethod
-	def create_rin(cls, nombre, descripcion, cantidad, precio, producto_type, proveedor, detalles):
-		proveedor = Proveedor.objects.get(rif=proveedor)
-
-		new_producto = cls(nombre=nombre, descripcion=descripcion, producto_type=ProductoTypeChoices.RIN, proveedor=proveedor,
-			marca=detalles.get('marca', ''), material=detalles.get('material', ''), tamano=detalles.get('tamano', ''), fecha_fabricacion=detalles.get('fecha_fabricacion', '')
-		)
-		new_producto.save()
-
-		new_producto.set_cantidad(cantidad)
-		new_producto.set_precio(precio)
-
-		return new_producto
-
-	def serialize(self):
-		return model_to_dict(self)
-	
-	def __str__(self):
-		return f"Caucho -> {self.id} - {self.nombre}"
 
 class Inventario(models.Model):
 	producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
@@ -365,92 +265,3 @@ class DetalleVenta(models.Model):
     def __str__(self):
        return f"{self.venta.id} - {self.venta.cliente.get_names()} - {self.producto.nombre}"
 	
-class Servicio(models.Model):
-	nombre = models.CharField(max_length=255)
-	precio = models.FloatField(default=0)
-	codigo = models.CharField(max_length=10, default="")
-
-	class Meta:
-		verbose_name = "Servicio"
-		verbose_name_plural = "Servicios"
-
-	def serialize(self):
-		return ServicioSerialize(self)
-	
-	def __str__(self):
-		return f"{self.codigo}-{self.nombre}"
-	
-class ServicioFacturacion(models.Model):
-	cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-	servicios = models.ManyToManyField(Servicio, through='DetalleServicioFacturacion')
-	fecha_emision = models.DateField(auto_now_add=True)
-
-	def getPrecioTotal(self):
-		total = 0
-		for servicio in self.servicios.all():
-			total += servicio.precio
-		return total
-	
-	def get_codigo(self):
-		return (f"{self.fecha_emision.year}-{self.fecha_emision.month}-{str(self.id).zfill(4)}")
-	
-	def get_detalles_servicios(self):
-		return DetalleServicioFacturacion.objects.filter(servicio_facturacion=self)
-
-	class Meta:
-		verbose_name = "ServicioFacturacion"
-		verbose_name_plural = "ServiciosFacturacion"
-		
-	def serialize(self):
-		return ServicioFacturadoSerialize(self)
-	
-	def __str__(self):
-		return f"{self.id} - {self.cliente.get_names()}"
-	
-class DetalleServicioFacturacion(models.Model):
-    servicio_facturacion = models.ForeignKey(ServicioFacturacion, on_delete=models.CASCADE)
-    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = "DetalleServicioFacturacion"
-        verbose_name_plural = "DetalleServiciosFacturacion"
-
-    def serialize(self):
-        return DetalleServicioFacturacion(self)
-
-    def __str__(self):
-        return f"{self.servicio_facturacion.id} - {self.servicio_facturacion.cliente.get_names()}"
-	
-class Transaccion(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    accion = models.CharField(max_length=50)
-    cantidad = models.PositiveIntegerField()
-    monto = models.FloatField(default=0, blank=True)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, default=None, null=True)
-
-    def serialize(self):
-        return TransaccionSerializer(self)
-
-    def __str__(self):
-        return f"{self.accion} - {self.producto.nombre} - Cantidad: {self.cantidad} - Monto: {self.monto}"
-    
-class Factura(models.Model):
-	venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
-	descripcion = models.TextField()
-	precio = models.FloatField(default=0)
-	fecha_emision = models.DateField(auto_now_add=True)
-
-	class Meta:
-		verbose_name = "Factura"
-		verbose_name_plural = "Facturas"
-
-	def get_codigo(self):
-		return (f"{self.fecha_emision.year}-{self.fecha_emision.month}-{str(self.id).zfill(3)}") if self.venta else ""
-
-	def serialize(self):
-		return FacturaSerializer(self)
-	
-	def __str__(self):
-		return f"{self.get_codigo()} - {self.venta.cliente.get_names()}"
-

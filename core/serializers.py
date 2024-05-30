@@ -25,7 +25,6 @@ def producto_serialize(self):
 	dict_model = model_to_dict(self)
 	dict_model["cantidad"] = self.get_cantidad()
 	dict_model["precio"] = self.get_precio()
-	dict_model["extra"] = self.get_extra_info()
 	dict_model["proveedor"] = self.proveedor.get_names()
 	return dict_model
 
@@ -45,44 +44,11 @@ def detalle_venta_serialize(self):
 	dict_model = model_to_dict(self)
 	return dict_model
 
-
-def transaccion_serialize(self):
-	dict_model = model_to_dict(self)
-	dict_model["producto"] = self.producto.serialize(),
-	dict_model["usuario"] = self.usuario.username if self.usuario else "N/A",
-	dict_model["cliente"] = self.cliente.get_names() if self.cliente else "N/A",
-
-	return dict_model
-
-def factura_serialize(self):
-	dict_model = model_to_dict(self)
-	dict_model["codigo"] = self.get_codigo()
-	return dict_model
-
-def servicio_serialize(self):
-	dict_model = model_to_dict(self)
-	return dict_model
-
-def servicio_facturado_serialize(self):
-	dict_model = model_to_dict(self)
-	dict_model["precio"] = self.getPrecioTotal()
-	dict_model["cliente"] = self.cliente.serialize()
-	dict_model["servicios"] = [servicio.serialize() for servicio in self.servicios.all()]
-	return dict_model
-
-def detalles_servicio_facturado_serialize(self):
-	dict_model = model_to_dict(self)
-	return dict_model
 	
 
 UserSerializer = user_serialize
 PersonaSerializer = persona_serialize
 ProductoSerializer = producto_serialize
 VentaSerializer = venta_serialize
-TransaccionSerializer = transaccion_serialize
-FacturaSerializer = factura_serialize
-ServicioSerialize = servicio_serialize
-ServicioFacturadoSerialize = servicio_facturado_serialize
 DetalleVentaSerialize = detalle_venta_serialize
-DetalleServicioFacturadoSerialize = detalles_servicio_facturado_serialize
 

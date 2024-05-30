@@ -1,0 +1,11 @@
+Usuario 1: Administrador
+usuario: admin
+contraseña: admin
+
+Usuario 2: Gerente de ventas
+usuario: carlosR
+contraseña: password
+
+Usuario 3: Vendedor
+usuario: wilmerC
+contraseña: password

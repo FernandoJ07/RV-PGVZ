@@ -288,34 +288,12 @@ def productos(request, id=None, action=None):
 
         producto_proveedor = Proveedor.objects.all().first().rif
 
-        caucho_marca = data.get("caucho_marca", "")
-        caucho_medidas = data.get("caucho_medidas", "")
-        caucho_calidad = data.get("caucho_calidad", "")
-        caucho_fabricacion = data.get("caucho_fabricacion", "")
-        
-        rin_marca = data.get("rin_marca", "")
-        rin_material = data.get("rin_material", "")
-        rin_tamano = data.get("rin_tamano", "")
-        rin_fabricacion = data.get("rin_fabricacion", "")
 
         if producto_tipo == ProductoTypeChoices.PRODUCTO.value:
             producto = Producto.create_producto(producto_nombre, producto_descripcion, producto_cantidad, producto_precio, producto_tipo, producto_proveedor)
         
-        elif producto_tipo == ProductoTypeChoices.CAUCHO.value:
-            detalles = {"marca": caucho_marca, "medidas": caucho_medidas, "calidad": caucho_calidad, "fecha_fabricacion": caucho_fabricacion}
-
-            producto = Caucho.create_caucho(producto_nombre, producto_descripcion, producto_cantidad, producto_precio, producto_tipo, producto_proveedor, detalles)
-
-        elif producto_tipo == ProductoTypeChoices.RIN.value:
-            detalles = {"marca": rin_marca, "material": rin_material, "tamano": rin_tamano, "fecha_fabricacion": rin_fabricacion}
-
-            producto = Rin.create_rin(producto_nombre, producto_descripcion, producto_cantidad, producto_precio, producto_tipo, producto_proveedor, detalles)
-
         else:
             producto = None
-
-        if producto != None:
-            Transaccion.objects.create(producto=producto, accion="METER", cantidad=producto_cantidad)
 
         return JsonResponse({"message": "Producto agregado."}, status=201)
     
@@ -390,29 +368,9 @@ def productos(request, id=None, action=None):
                 'precio':  data.get("precio", 0)
             }
             
-            dataCaucho = {
-                'marca': data.get("caucho_marca", ""),
-                'medidas': data.get("caucho_medidas", ""),
-                'calidad': data.get("caucho_calidad", ""),
-                'fecha_fabricacion': data.get("caucho_fabricacion", "")
-            }
-
-            dataRin = {
-                'marca': data.get("rin_marca", ""),
-                'material': data.get("rin_material", ""),
-                'tamano': data.get("rin_tamano", ""),
-                'fecha_fabricacion': data.get("rin_fabricacion", "")
-            }
-
             try:
                 Producto.objects.filter(id=id).update(**dataProducto)
                 Inventario.objects.filter(producto=id).update(**dataInventario)
-
-                if producto_tipo == ProductoTypeChoices.CAUCHO:
-                    Caucho.objects.filter(id=id).update(**dataCaucho)
-
-                elif producto_tipo == ProductoTypeChoices.RIN:
-                    Rin.objects.filter(id=id).update(**dataRin)
 
                 return JsonResponse({"message": "Producto modificado."}, status=201)
 
@@ -509,195 +467,8 @@ def ventas(request, id=None):
                 venta.total = total_venta
                 venta.save()
 
-                Factura.objects.create(venta=venta, descripcion="", precio=venta.total)
-
             return JsonResponse({"message": "Venta creada exitosamente."}, status=201)
 
         except json.JSONDecodeError:
             return JsonResponse({"error": "Error al decodificar JSON en la solicitud."}, status=400)
 
-@csrf_exempt        
-def transacciones(request):
-    if request.method == "GET":
-        return JsonResponse([transacciones.serialize() for transacciones in Transaccion.objects.all()], safe=False)
-    
-@csrf_exempt
-def factura(request, id=None):
-
-    if request.method == "GET":
-        try:
-            venta = Venta.objects.get(id=id)
-            factura = Factura.objects.filter(venta=venta).first()
-
-            if factura:
-                return JsonResponse(factura.serialize(), safe=False)
-            else:
-                return JsonResponse({"mensaje": "Debe generar la factura antes de visualizarla"}, status=404)
-
-        except Exception as e:
-            return JsonResponse({"error": f"Error al obtener la factura: {str(e)}"}, status=500)
-        
-    if request.method == "POST":
-        data = json.loads(request.body)
-
-        try:
-            venta = Venta.objects.filter(id=data['venta_id']).first()
-            
-            if not venta:
-                return JsonResponse({"error": "Venta no encontrada con el ID proporcionado"}, status=404)
-            
-            if Factura.objects.filter(venta=venta).exists():
-                return JsonResponse({"error": "Ya se ha generado una factura para esta venta"}, status=409)
-
-
-            dataInfo = {
-                'venta': venta,
-                'descripcion': data['descripcion'],
-                'precio': venta.total
-            }
-
-            Factura.objects.create(**dataInfo)
-            return JsonResponse({"success": "La factura ha sido registrada exitosamente"}, status=200)
-
-        except Exception as e:
-            return JsonResponse({"error": f"Error al crear la factura: {str(e)}"}, status=500)
-        
-@csrf_exempt
-def servicios(request, id=None):
-    if request.method == "GET":
-        if id != None:
-            try:
-                servicio = Servicio.objects.get(id=id)
-                return JsonResponse(servicio.serialize(), safe=False)
-            except IntegrityError:
-                return JsonResponse({"error": "IntegrityError."}, status=417)
-            except User.DoesNotExist:
-                return JsonResponse({"error": "DoesNotExist."}, status=417)
-            
-        return JsonResponse([servicio.serialize() for servicio in Servicio.objects.all()], safe=False)
-    
-    if request.method == "POST":
-
-        if id == None:
-            try:
-                data = json.loads(request.body)
-                Servicio.objects.create(**data)
-                return JsonResponse({"message": "Servicio agregado."}, status=201)
-            
-            except (IntegrityError, OperationalError) as e:
-                return JsonResponse({"error": str(e)}, status=400)
-        
-        try:
-            data = json.loads(request.body)
-
-            cliente_id = data['cliente']
-            if not cliente_id:
-                return JsonResponse({"error": "Debe escoger un cliente de la lista."}, status=400)
-
-            try:
-                Cliente.objects.get(id=cliente_id)
-            except ObjectDoesNotExist:
-                return JsonResponse({"error": "Cliente no encontrado."}, status=404)
-
-            servicios = data["servicios"]
-            if not servicios:
-                return JsonResponse({"error": "La lista de servicios está vacía."}, status=400)
-
-            with transaction.atomic():
-                
-                for servicio in servicios:
-                    servicio_codigo = servicio['codigo']
-                    try:
-                        servicio = Servicio.objects.get(codigo=servicio_codigo)
-                    except ObjectDoesNotExist:
-                        return JsonResponse({"error": f"El servicio con código {servicio_codigo} no existe."}, status=400)
-                    
-            return JsonResponse({"message": "Servicio creado exitosamente."}, status=201)
-
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Error al decodificar JSON en la solicitud."}, status=400)
-        
-
-    if request.method == "PUT":
-        data = json.loads(request.body)
-
-        if id != None:
-            if not Servicio.objects.filter(id=id).exists():
-                return JsonResponse({"error": "DoesNotExist."}, status=417)
-
-            try:
-                Servicio.objects.filter(id=id).update(**data)
-                
-                return JsonResponse({"message": "Servicio modificado."}, status=201)
-            except ValueError:
-                return JsonResponse({"error": "ValueError."}, status=417)
-
-        return JsonResponse({"error": "Error."}, status=417)
-        
-    if request.method == "DELETE":
-        if not request.user.is_superuser:
-            return JsonResponse({"error": "No permission."}, status=417)
-        
-        if id != None:
-            try:
-                Servicio.objects.get(id=id).delete()
-                return JsonResponse({"message": "Servicio eliminado."}, status=201)
-            except IntegrityError:
-                return JsonResponse({"error": "IntegrityError."}, status=417)
-            except Servicio.DoesNotExist:
-                return JsonResponse({"error": "DoesNotExist."}, status=417)
-
-        return JsonResponse({"error": "Error."}, status=417)
-
-@csrf_exempt
-def servicioFacturado(request, id=None):
-    if request.method == "GET":
-        if id != None:
-            try:
-                servicio_facturacion = ServicioFacturacion.objects.get(id=id)
-                return JsonResponse(servicio_facturacion.serialize(), safe=False)
-            except IntegrityError:
-                return JsonResponse({"error": "IntegrityError."}, status=417)
-            except Cliente.DoesNotExist:
-                return JsonResponse({"error": "DoesNotExist."}, status=417)
-        return JsonResponse([servicio_facturacion.serialize() for servicio_facturacion in ServicioFacturacion.objects.all()], safe=False)
-        
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-
-            cliente_id = data['cliente']
-            if not cliente_id:
-                return JsonResponse({"error": "Debe escoger un cliente de la lista."}, status=400)
-
-            try:
-                cliente = Cliente.objects.get(id=cliente_id)
-            except ObjectDoesNotExist:
-                return JsonResponse({"error": "Cliente no encontrado."}, status=404)
-
-
-            servicios = data["servicios"]
-            if not servicios:
-                return JsonResponse({"error": "La lista de servicios está vacía."}, status=400)
-            
-
-            with transaction.atomic():
-                servicio_facturacion = ServicioFacturacion.objects.create(cliente=cliente)
-
-                for servicio in servicios:
-                    try:
-                        servicio_codigo = servicio['codigo']
-                        servicio = Servicio.objects.get(codigo=servicio_codigo)
-
-                        DetalleServicioFacturacion.objects.create(
-                            servicio_facturacion=servicio_facturacion,
-                            servicio=servicio,
-                        )
-
-                    except (KeyError, ObjectDoesNotExist) as e:
-                        return JsonResponse({"error": f"Error en el servicio: {str(e)}"}, status=400)
-
-            return JsonResponse({"message": "Servicio facturado exitosamente."}, status=201)
-
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Error al decodificar JSON en la solicitud."}, status=400)

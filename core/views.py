@@ -49,28 +49,8 @@ def registroVentas(request):
     return render(request, "core/registro-ventas.html")
 
 @login_required
-def transacciones(request):
-    return render(request, "core/transacciones.html")
-
-@login_required
 def proveedores(request):
     return render(request, "core/proveedores.html")
-
-@login_required
-def facturas(request):
-    return render(request, "core/facturas.html")
-
-@login_required
-def servicios(request):
-    return render(request, "core/servicios.html")
-
-@login_required
-def registroServicios(request):
-    return render(request, "core/registro-servicios.html")
-
-@login_required
-def servicioFacturado(request):
-    return render(request, "core/servicios-facturado.html")
 
 def login_view(request):
 

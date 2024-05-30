@@ -1,0 +1,11 @@
+Asegurarse de tener Python3 instalado en el equipo
+
+1 Paso
+    pip install -r requirements.txt
+2 Paso
+    python manage.py migrate
+3 Paso
+    python manage.py runserver
+4 Paso
+    Acceder a esta ruta desde el navegador  http://127.0.0.1:8000/
+

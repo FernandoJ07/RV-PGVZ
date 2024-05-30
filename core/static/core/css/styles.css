@@ -15,7 +15,7 @@
     color: #e5e6ea;
     border-bottom: 1px white solid;
     padding: 2px 5px;
-    margin-left: 5px;
+    margin: 20px 0px 20px 5px;
     outline: none;
 }
 
@@ -140,4 +140,25 @@ button:disabled  {
 .tablas tbody tr td{
     padding: 10px 12px;
 
+}
+
+
+#tabla_productos thead{
+    display: none;
+}
+
+#tabla_usuarios thead{
+    display: none;
+}
+
+#tabla_clientes thead{
+    display: none;
+}
+
+#tabla_ventas thead{
+    display: none;
+}
+
+#tabla_proveedores thead{
+    display: none;
 }
